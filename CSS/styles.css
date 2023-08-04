@@ -123,6 +123,11 @@ font-size: 2rem;
 display: inline;
 line-height: 1.5;
 }
+.recent-work {
+  text-align: center;
+  font-size: xxx-large;
+
+}
 
 .search-container label {
   align-items: center;
