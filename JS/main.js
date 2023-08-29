@@ -4,7 +4,7 @@ const portfolioInfo = [
     type: "web",
     img: "./assets/images/portfolio-1.jpg",
     category: "Web Development",
-    title: "Feature Project 1",
+    title: "Code Rad",
     description: "My first awesome website",
     detail: "This website was developed to demonstrate mastery over HTML and CSS",
     link: "https://chapmans-web.netlify.app/"
@@ -14,7 +14,7 @@ const portfolioInfo = [
     type: "web",
     img: "./assets/images/portfolio-2.jpg",
     category: "Web Development",
-    title: "Feature Project 2",
+    title: "Front",
     description: "My Awesome Website",
     detail: "This website demonstrates additional skills that weren't showcased before.",
     link: "https://chapmanfront.vercel.app"
@@ -24,7 +24,7 @@ const portfolioInfo = [
     type: "web",
     img: "./assets/images/portfolio-3.jpg",
     category: "Web Development",
-    title: "Feature Project 3",
+    title: "Portfolio Project",
     description: "My Awesome Website",
     detail: "This website demonstrates Javascript proficiency as well as more advanced CSS",
     link: "https://chapman-world-wide.vercel.app"
