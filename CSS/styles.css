@@ -382,6 +382,11 @@ opacity: 0.55;
   text-transform: lowercase;
 }
 
+.schedule-a-call h2 {
+  margin-top: 4rem;
+  text-align: center;
+}
+
 .modal {
   display: flex;
   justify-content: center;
@@ -514,3 +519,5 @@ cursor: default;
     --marquee-elms-displayed: 2;
   }
  }
+
+
