@@ -306,62 +306,58 @@ for (let i = 0; i < elmsDisplayed; i += 1) {
 // Play Button 
 
 
-var audioOne = document.getElementById('audioOne');
-  var playButtonOne = document.getElementById('playButtonOne');
+// Function to toggle play/pause for a given audio element and button
+function toggleAudio(audioElement, buttonElement, isPlaying) {
+  if (isPlaying) {
+    audioElement.pause();
+    buttonElement.src = './assets/images/ava-1.jpg'; // Change to play image
+  } else {
+    // Pause all other audio elements before playing the new one
+    document.querySelectorAll('audio').forEach(audio => {
+      if (!audio.paused) {
+        audio.pause();
+        // Reset all play buttons to the play image
+        document.querySelectorAll('.play-button').forEach(button => {
+          button.src = './assets/images/ava-1.jpg';
+        });
+      }
+    });
 
-  playButtonOne.addEventListener('click', function() {
-    if (audioOne.paused) {
-      audioOne.play();
-      // Optionally change the play button image to a pause image
-      playButtonOne.src = './assets/images/ava-1.jpg';
-    } else {
-      audioOne.pause();
-      // Change it back to the play image
-      playButtonOne.src = './assets/images/ava-1.jpg';
+    audioElement.play();
+    buttonElement.src = './assets/images/ava-1.jpg'; // Change to pause image
+  }
+}
+
+// Attaching event listeners to all play buttons
+document.querySelectorAll('.play-button').forEach(button => {
+  button.addEventListener('click', function(event) {
+    const audioId = button.getAttribute('data-audio-target');
+    const audioElement = document.getElementById(audioId);
+    toggleAudio(audioElement, button, !audioElement.paused);
+    event.stopPropagation(); // Prevents click event from bubbling up
+  });
+});
+
+// Global click listener to pause all audios if clicked outside of a play button
+document.addEventListener('click', function() {
+  document.querySelectorAll('audio').forEach(audio => {
+    if (!audio.paused) {
+      audio.pause();
+      document.querySelectorAll('.play-button').forEach(button => {
+        button.src = './assets/images/ava-1.jpg';
+      });
     }
   });
+});
 
-var audioTwo = document.getElementById('audioTwo');
-  var playButtonTwo = document.getElementById('playButtonTwo');
-
-  playButtonTwo.addEventListener('click', function() {
-    if (audioTwo.paused) {
-      audioTwo.play();
-      // Optionally change the play button image to a pause image
-      playButtonTwo.src = './assets/images/ava-1.jpg';
-    } else {
-      audioTwo.pause();
-      // Change it back to the play image
-      playButtonTwo.src = './assets/images/ava-1.jpg';
+// Global keydown listener to pause all audios
+document.addEventListener('keydown', function() {
+  document.querySelectorAll('audio').forEach(audio => {
+    if (!audio.paused) {
+      audio.pause();
+      document.querySelectorAll('.play-button').forEach(button => {
+        button.src = './assets/images/ava-1.jpg';
+      });
     }
   });
-
-var audioThree = document.getElementById('audioThree');
-  var playButtonThree = document.getElementById('playButtonThree');
-
-  playButtonThree.addEventListener('click', function() {
-    if (audioThree.paused) {
-      audioThree.play();
-      // Optionally change the play button image to a pause image
-      playButtonThree.src = './assets/images/ava-1.jpg';
-    } else {
-      audioThree.pause();
-      // Change it back to the play image
-      playButtonThree.src = './assets/images/ava-1.jpg';
-    }
-  });
-
-var audioFour = document.getElementById('audioFour');
-  var playButtonFour = document.getElementById('playButtonFour');
-
-  playButtonFour.addEventListener('click', function() {
-    if (audioFour.paused) {
-      audioFour.play();
-      // Optionally change the play button image to a pause image
-      playButtonFour.src = './assets/images/ava-1.jpg';
-    } else {
-      audioFour.pause();
-      // Change it back to the play image
-      playButtonFour.src = './assets/images/ava-1.jpg';
-    }
-  });
+});
