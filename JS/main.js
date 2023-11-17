@@ -302,3 +302,66 @@ for (let i = 0; i < elmsDisplayed; i += 1) {
 //nodelist.length
 // assign --marquee-elms nodelist.length
 
+
+// Play Button 
+
+
+var audioOne = document.getElementById('audioOne');
+  var playButtonOne = document.getElementById('playButtonOne');
+
+  playButtonOne.addEventListener('click', function() {
+    if (audioOne.paused) {
+      audioOne.play();
+      // Optionally change the play button image to a pause image
+      playButtonOne.src = './assets/images/ava-1.jpg';
+    } else {
+      audioOne.pause();
+      // Change it back to the play image
+      playButtonOne.src = './assets/images/ava-1.jpg';
+    }
+  });
+
+var audioTwo = document.getElementById('audioTwo');
+  var playButtonTwo = document.getElementById('playButtonTwo');
+
+  playButtonTwo.addEventListener('click', function() {
+    if (audioTwo.paused) {
+      audioTwo.play();
+      // Optionally change the play button image to a pause image
+      playButtonTwo.src = './assets/images/ava-1.jpg';
+    } else {
+      audioTwo.pause();
+      // Change it back to the play image
+      playButtonTwo.src = './assets/images/ava-1.jpg';
+    }
+  });
+
+var audioThree = document.getElementById('audioThree');
+  var playButtonThree = document.getElementById('playButtonThree');
+
+  playButtonThree.addEventListener('click', function() {
+    if (audioThree.paused) {
+      audioThree.play();
+      // Optionally change the play button image to a pause image
+      playButtonThree.src = './assets/images/ava-1.jpg';
+    } else {
+      audioThree.pause();
+      // Change it back to the play image
+      playButtonThree.src = './assets/images/ava-1.jpg';
+    }
+  });
+
+var audioFour = document.getElementById('audioFour');
+  var playButtonFour = document.getElementById('playButtonFour');
+
+  playButtonFour.addEventListener('click', function() {
+    if (audioFour.paused) {
+      audioFour.play();
+      // Optionally change the play button image to a pause image
+      playButtonFour.src = './assets/images/ava-1.jpg';
+    } else {
+      audioFour.pause();
+      // Change it back to the play image
+      playButtonFour.src = './assets/images/ava-1.jpg';
+    }
+  });

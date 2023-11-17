@@ -340,6 +340,16 @@ transform: translateX(75%);}
   border-radius: 50%;
 }
 
+audio {
+  display: none;
+}
+
+
+
+#playButtonOne, #playButtonTwo, #playButtonThree, #playButtonFour {
+  cursor: pointer;
+}
+
 .details .name {
   font-size: 18px;
   line-height: 1.5;
