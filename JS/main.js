@@ -47,7 +47,7 @@ const portfolioInfo = [
     title: "Feature Project 5",
     description: "My awesome webapp",
     detail: "My next masterpiece...coming soon!",
-    link: "https://chapman-world-wide.vercel.app"
+    link: "http://your-ai-company.com/"
   },
   {
     id: "app-1",
