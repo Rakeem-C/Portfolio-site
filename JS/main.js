@@ -35,19 +35,19 @@ const portfolioInfo = [
     img: "./assets/images/portfolio-4.jpg",
     category: "Web Development",
     title: "Path To Legacy",
-    description: "My awesome webapp",
-    detail: "This a InstaCart styled website (V1) that's used to enable customers to purchase their favorite snack and have it shipped directly to them",
+    description: "This a InstaCart styled website (V1) that's used to enable customers to purchase their favorite snack and have it shipped directly to them",
+    detail: "Demonstrates mastery over HTML,CSS JS, Jquery, bootstrap",
     link: "https://path-to-legacy-ghfp-git-main-rakeem-c.vercel.app/?vercelToolbarCode=RhLAqHJArCVLgqN"
   },
   {
-    id: "ui-2",
+    id: "web-5",
     type: "ui",
-    img: "./assets/images/portfolio-5.jpg",
+    img: "./assets/images/legendary monsters.webp",
     category: "Web Development",
-    title: "Feature Project 5",
-    description: "My awesome webapp",
-    detail: "My next masterpiece...coming soon!",
-    link: "http://your-ai-company.com/"
+    title: "Pokemon Cosmic Alpha",
+    description: "This website allows you to save your favorite pokemon and provides a playable preview for my fan-made game.",
+    detail: "Demonstrates mastery over HTML,CSS JS, GSAP, Tile Editor ",
+    link: "https://pokemon-cosmic.netlify.app/"
   },
   {
     id: "app-1",
