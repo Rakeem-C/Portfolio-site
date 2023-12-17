@@ -46,7 +46,7 @@ const portfolioInfo = [
     category: "Web Development",
     title: "Pokemon Cosmic Alpha",
     description: "This website allows you to save your favorite pokemon and provides a playable preview for my fan-made game.",
-    detail: "Demonstrates mastery over HTML,CSS JS, GSAP, Tile Editor ",
+    detail: "Demonstrates mastery over HTML,CSS JS, GSAP, Tile Editor, Howl ",
     link: "https://pokemon-cosmic.netlify.app/"
   },
   {
