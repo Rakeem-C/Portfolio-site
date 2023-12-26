@@ -41,7 +41,7 @@ const portfolioInfo = [
   },
   {
     id: "web-5",
-    type: "ui",
+    type: "web",
     img: "./assets/images/legendary monsters.webp",
     category: "Web Development",
     title: "Pokemon Cosmic Alpha",
@@ -50,24 +50,24 @@ const portfolioInfo = [
     link: "https://pokemon-cosmic.netlify.app/"
   },
   {
-    id: "app-1",
-    type: "app",
-    img: "./assets/images/portfolio-5.jpg",
+    id: "web-6",
+    type: "web",
+    img: "./assets/images/portfolio-6.jpg",
     category: "Web Development",
-    title: "Feature Project 6",
-    description: "My awesome webapp",
-    detail: "My next masterpiece...coming soon!",
-    link: "https://chapman-world-wide.vercel.app"
+    title: "Krypto NFTs ",
+    description: "This landing page was built with webflow and is meant to showcase an upcoming NFT platform.",
+    detail: "Demonstrates mastery of the Webflow ecosystem.",
+    link: "https://kryptonfts.webflow.io/"
   },
   {
-    id: "app-2",
-    type: "app",
-    img: "./assets/images/portfolio-5.jpg",
+    id: "web-7",
+    type: "web",
+    img: "./assets/images/portfolio-7.jpg",
     category: "Web Development",
     title: "Feature Project 7",
-    description: "My awesome webapp",
-    detail: "My next masterpiece...coming soon!",
-    link: "https://chapman-world-wide.vercel.app"
+    description: "This project is a personal website used to blog travels throughout the world.",
+    detail: "Demonstrates mastery of the Wordpress CMS including Elementor and Astra to create multi-page aesthetic pages.",
+    link: "https://ylw.umo.mybluehost.me/home-2/"
   },
   {
     id: "web-5",
