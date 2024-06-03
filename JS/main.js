@@ -64,20 +64,20 @@ const portfolioInfo = [
     type: "web",
     img: "./assets/images/portfolio-7.jpg",
     category: "Web Development",
-    title: "Feature Project 7",
-    description: "This project is a traveler website used to blog travels throughout the world.",
+    title: "OneDayBathroom",
+    description: "This website supports ShowCaseRemodels initiative to expand their bathroom offerings.",
     detail: "Demonstrates mastery of the Wordpress CMS including Elementor and Astra to create multi-page aesthetic pages.",
-    link: "https://ylw.umo.mybluehost.me/home-2/"
+    link: "https://myonedaybathroom.com/"
   },
   {
-    id: "web-5",
+    id: "web-8",
     type: "web",
     img: "./assets/images/portfolio-8.jpg",
     category: "Web Development",
     title: "Non-profit Website Overhaul",
     description: "My awesome webapp",
     detail: "This  website helped a non-profit establish an authoritative presence in the Georgia Ballet scene. ",
-    link: "https://var.xem.mybluehost.me/.website_689c2919/"
+    link: "https://chapman-world-wide.vercel.app/"
   },
   
   // Add more portfolio items here...
