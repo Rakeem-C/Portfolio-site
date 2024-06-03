@@ -65,7 +65,7 @@ const portfolioInfo = [
     img: "./assets/images/portfolio-7.jpg",
     category: "Web Development",
     title: "OneDayBathroom",
-    description: "This website supports ShowCaseRemodels initiative to expand their bathroom offerings.",
+    description: "This local service website supports ShowCaseRemodels initiative to expand their bathroom offerings throughout the New Jersey area.",
     detail: "Demonstrates mastery of the Wordpress CMS including Elementor and Astra to create multi-page aesthetic pages.",
     link: "https://myonedaybathroom.com/"
   },
