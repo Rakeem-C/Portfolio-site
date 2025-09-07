@@ -75,8 +75,9 @@ const portfolioInfo = [
     img: "./assets/images/portfolio-8.jpg",
     category: "Web Development",
     title: "Non-profit Website Overhaul",
-    description: "My awesome webapp",
-    detail: "This  website helped a non-profit establish an authoritative presence in the Georgia Ballet scene. ",
+    // Updated description and details to reflect the new advocacy image.
+    description: "Advocacy platform for pilots",
+    detail: "This website supports the Allegiant Pilots Association and highlights pilots rallying for industry‑standard pay and improved work rules. The imagery captures members picketing outside company headquarters with signs that call on the airline to invest in its pilots.",
     link: "https://chapman-world-wide.vercel.app/"
   },
   
