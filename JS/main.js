@@ -74,10 +74,10 @@ const portfolioInfo = [
     type: "web",
     img: "./assets/images/portfolio-8.jpg",
     category: "Web Development",
-    title: "Non-profit Website Overhaul",
-    // Updated description and details to reflect the new advocacy image.
+    // Updated title and detail to reflect Allegiant pilots advocacy image and text.
+    title: "Allegiant Pilots",
     description: "Advocacy platform for pilots",
-    detail: "This website supports the Allegiant Pilots Association and highlights pilots rallying for industry‑standard pay and improved work rules. The imagery captures members picketing outside company headquarters with signs that call on the airline to invest in its pilots.",
+    detail: "This website supports the Allegiant Pilots Association and highlights pilots rallying for industry‑standard pay and improved work rules.",
     link: "https://chapman-world-wide.vercel.app/"
   },
   
