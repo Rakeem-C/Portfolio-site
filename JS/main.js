@@ -74,9 +74,11 @@ const portfolioInfo = [
     type: "web",
     img: "./assets/images/portfolio-8.jpg",
     category: "Web Development",
-    // Updated title and detail to reflect Allegiant pilots advocacy image and text.
-    title: "Allegiant Pilots",
+    // Updated title and details to reflect the Allegiant pilots advocacy image. Note
+    // the title uses a lowercase "p" in "pilots" per project requirements.
+    title: "Allegiant pilots",
     description: "Advocacy platform for pilots",
+    // Trimmed the detail to include only the key summary of the advocacy campaign.
     detail: "This website supports the Allegiant Pilots Association and highlights pilots rallying for industry‑standard pay and improved work rules.",
     link: "https://chapman-world-wide.vercel.app/"
   },
