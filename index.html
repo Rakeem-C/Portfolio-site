@@ -1,235 +1,604 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="./CSS/theme.css">
-  <link rel="stylesheet" href="./CSS/base.css">
-  <link rel="stylesheet" href="./CSS/styles.css">
-  <link rel="stylesheet" href="./CSS/pages.css">
-  <title>Chapman's Portfolio</title>
-</heapt>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rakeem Chapman | Coming Soon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .logo {
+            margin-bottom: 3rem;
+        }
+
+        .logo h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo .tagline {
+            font-size: 1.1rem;
+            color: var(--gray-light);
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        /* Tech Visualization */
+        .tech-visualization {
+            margin: 2rem 0 3rem;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .visualization-container {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+        }
+
+        .visualization-container:hover {
+            border-color: rgba(37, 99, 235, 0.3);
+            box-shadow: 0 25px 50px rgba(37, 99, 235, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .visualization-container svg {
+            border-radius: 12px;
+            overflow: hidden;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            margin-bottom: 4rem;
+        }
+
+        .main-content h2 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .main-content p {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            color: var(--gray-light);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            min-width: 100px;
+            transition: var(--transition);
+        }
+
+        .countdown-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(37, 99, 235, 0.3);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15);
+        }
+
+        .countdown-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            line-height: 1;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.5rem;
+            display: block;
+        }
+
+        .cta-section {
+            margin-bottom: 3rem;
+        }
+
+        .cta-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--light);
+        }
+
+        .email-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .email-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 1rem 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--light);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .email-input::placeholder {
+            color: var(--gray);
+        }
+
+        .notify-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .notify-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+
+        .notify-btn:active {
+            transform: translateY(0);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: rgba(37, 99, 235, 0.2);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .social-link i {
+            font-size: 1.25rem;
+        }
+
+        .footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo h1 {
+                font-size: 2.5rem;
+            }
+            
+            .main-content h2 {
+                font-size: 2.5rem;
+            }
+            
+            .main-content p {
+                font-size: 1.1rem;
+            }
+            
+            .countdown {
+                gap: 1rem;
+            }
+            
+            .countdown-item {
+                min-width: 80px;
+                padding: 1rem;
+            }
+            
+            .countdown-number {
+                font-size: 2rem;
+            }
+            
+            .form-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .email-input {
+                min-width: 100%;
+            }
+            
+            .notify-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .logo h1 {
+                font-size: 2rem;
+            }
+            
+            .main-content h2 {
+                font-size: 2rem;
+            }
+            
+            .countdown-item {
+                min-width: 70px;
+                padding: 0.75rem;
+            }
+            
+            .countdown-number {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
 <body>
-  <div class="theme-panel open">
-    <div class="theme-body">
-      <span>Change Theme</span>
-      <div class="btn-group">
-        <button data-toggle="light" class="switcher-btn active">Light</button>
-        <button data-toggle="dark"  class="switcher-btn">Dark</button>
-      </div>
-      <button class="theme-tab">
-        <i class="fas fa-chevron-left"></i>
-      </button>
-    </div>
-  </div>
-  <main class="site-wrapper">
-    <header class="site-header">
-      <nav class="navbar">
-        <div class="brand-logo">
-          <a href="/"><h2>MyFolio</h2></a>
+    <div class="container">
+        <div class="logo">
+            <h1>Rakeem Chapman</h1>
+            <div class="tagline">Building the future of automation & AI</div>
         </div>
-        <div class="navbar-nav">
-          <ul class="ul-defaults-none main-menu">
-            <li class="nav-item">Home</li>
-            <li class="nav-item" data-open="about">About Me</li>
-            <li class="nav-item" data-open="contact">Contact</li>
-          </ul>
-        </div>
-      </nav>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="hero-bg">
-      <div class="container">
-        <div class="hero-content">
-          <div class="code-icon">
-            <i class="fas fa-code"></i>
-          </div>
-          <h2 class="header-lg">Code. Eat. Sleep.</h2>
-          <div class="sub-header">I create meaningful solutions for your brands and your products.
-          <br>
-          Give your customers the best experience possible.
-        </div>
-        <div class="btn btn-primary round-pill">
-          <a href="#" data-open="contact">Let's talk now</a>
-        </div>
-        </div>
-      </div>
-    </section>
-
-    <section class= "container portfolio-section">
-      <div class= "search-container">
-        <label for="search">
-          <input autocomplete="off" id="search" type="text" class="search-input">
-          <i class="fas fa-search"></i>
-        </label>
-        <h2 class="recent-work">Recent Work</h2>
-      </div>
-
-
-      <div class="portfolio-grid">
-
-
-      </div>
-      </section>
+        <!-- Tech Visualization -->
+        <div class="tech-visualization">
+            <div class="visualization-container">
+                <?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="100%" height="auto" style="max-width: 800px; max-height: 400px;">
+  <defs>
+    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="gradient2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#2563eb" stop-opacity="0.6"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
   
-      <section class="reviews">
-        <div class="review-title">What People Say</div>
-        <h2 class="header-md">Trusted by Clients</h2>
-        <div class="review-preview">
-          <img src="./assets/images/cube.png" alt="cube">
+  <!-- Background -->
+  <rect width="800" height="400" fill="#0f172a"/>
+  
+  <!-- Main circuit-like structure -->
+  <g filter="url(#glow)">
+    <!-- Central hexagon -->
+    <polygon points="400,200 450,170 500,200 500,250 450,280 400,250" 
+             fill="url(#gradient1)" stroke="#2563eb" stroke-width="2" opacity="0.7"/>
+    
+    <!-- Connecting lines -->
+    <line x1="400" y1="200" x2="300" y2="150" stroke="#2563eb" stroke-width="2" opacity="0.5"/>
+    <line x1="400" y1="200" x2="500" y2="150" stroke="#7c3aed" stroke-width="2" opacity="0.5"/>
+    <line x1="400" y1="200" x2="300" y2="250" stroke="#2563eb" stroke-width="2" opacity="0.5"/>
+    <line x1="400" y1="200" x2="500" y2="250" stroke="#7c3aed" stroke-width="2" opacity="0.5"/>
+    
+    <!-- Outer nodes -->
+    <circle cx="300" cy="150" r="15" fill="url(#gradient2)" stroke="#7c3aed" stroke-width="2"/>
+    <circle cx="500" cy="150" r="15" fill="url(#gradient1)" stroke="#2563eb" stroke-width="2"/>
+    <circle cx="300" cy="250" r="15" fill="url(#gradient2)" stroke="#7c3aed" stroke-width="2"/>
+    <circle cx="500" cy="250" r="15" fill="url(#gradient1)" stroke="#2563eb" stroke-width="2"/>
+    
+    <!-- Data flow lines (animated) -->
+    <path d="M300,150 Q350,100 400,200 Q450,300 500,250" 
+          stroke="url(#gradient1)" stroke-width="3" fill="none" opacity="0.6">
+      <animate attributeName="stroke-dashoffset" from="100" to="0" dur="3s" repeatCount="indefinite"/>
+    </path>
+    
+    <path d="M500,150 Q450,100 400,200 Q350,300 300,250" 
+          stroke="url(#gradient2)" stroke-width="3" fill="none" opacity="0.6">
+      <animate attributeName="stroke-dashoffset" from="0" to="100" dur="3s" repeatCount="indefinite"/>
+    </path>
+    
+    <!-- Floating particles -->
+    <circle cx="250" cy="100" r="3" fill="#2563eb" opacity="0.7">
+      <animate attributeName="cy" values="100;120;100" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="550" cy="100" r="3" fill="#7c3aed" opacity="0.7">
+      <animate attributeName="cy" values="100;80;100" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="250" cy="300" r="3" fill="#7c3aed" opacity="0.7">
+      <animate attributeName="cy" values="300;280;300" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="550" cy="300" r="3" fill="#2563eb" opacity="0.7">
+      <animate attributeName="cy" values="300;320;300" dur="2.7s" repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- Binary code background effect -->
+    <text x="100" y="50" fill="#2563eb" opacity="0.2" font-family="monospace" font-size="14">
+      1010 0101 1100
+      <animate attributeName="x" values="100;110;100" dur="4s" repeatCount="indefinite"/>
+    </text>
+    <text x="650" y="350" fill="#7c3aed" opacity="0.2" font-family="monospace" font-size="14">
+      0011 1010 0110
+      <animate attributeName="x" values="650;640;650" dur="4s" repeatCount="indefinite"/>
+    </text>
+  </g>
+  
+  <!-- Tech elements -->
+  <g opacity="0.8">
+    <!-- Chip symbol -->
+    <rect x="200" y="320" width="40" height="40" rx="5" fill="#1e293b" stroke="#2563eb" stroke-width="2"/>
+    <line x1="210" y1="330" x2="230" y2="330" stroke="#7c3aed" stroke-width="2"/>
+    <line x1="210" y1="340" x2="230" y2="340" stroke="#7c3aed" stroke-width="2"/>
+    <line x1="210" y1="350" x2="230" y2="350" stroke="#7c3aed" stroke-width="2"/>
+    
+    <!-- Code bracket -->
+    <text x="600" y="80" fill="#2563eb" font-family="monospace" font-size="24" font-weight="bold">{ }</text>
+    
+    <!-- AI brain symbol -->
+    <circle cx="700" y="320" r="20" fill="#1e293b" stroke="#7c3aed" stroke-width="2"/>
+    <path d="M690,310 Q700,300 710,310 Q720,320 710,330 Q700,340 690,330 Q680,320 690,310" 
+          fill="none" stroke="#2563eb" stroke-width="2"/>
+  </g>
+  
+  <!-- Title text -->
+  <text x="400" y="380" text-anchor="middle" fill="#f8fafc" font-family="'Space Grotesk', sans-serif" font-size="24" font-weight="600">
+    Building the Future
+  </text>
+</svg>
+            </div>
         </div>
-        <div class="review-carousel">
 
-          <div class="review-item">
-            <div class="review-text">
-              #1 Listen to David explain how I created a website that met his every need!
+        <div class="main-content">
+            <h2>Something Amazing Is Coming</h2>
+            <p>
+                I'm crafting a new digital experience that combines cutting-edge technology with 
+                elegant design. Stay tuned for the launch of my portfolio and projects.
+            </p>
+
+            <div class="countdown" id="countdown">
+                <div class="countdown-item">
+                    <span class="countdown-number" id="days">00</span>
+                    <span class="countdown-label">Days</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="hours">00</span>
+                    <span class="countdown-label">Hours</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="minutes">00</span>
+                    <span class="countdown-label">Minutes</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="seconds">00</span>
+                    <span class="countdown-label">Seconds</span>
+                </div>
             </div>
-            <div class="review-author">
-              <div class="avatar">
-                <img  id ="playButtonOne" class="play-button" data-audio-target="audioOne"src="./assets/images/ava-1.jpg" alt="Play Button">
-                <audio id ="audioOne" src="/assets/audio/Testimonial 1.mp3"></audio>
-              </div>
-              <div class="details">
-                <div  class="name">Client A</div>
-                <div class="company">Small Business A</div>
-              </div>
+        </div>
+
+        <div class="cta-section">
+            <div class="cta-title">Get Notified When We Launch</div>
+            <div class="email-form">
+                <form id="notify-form">
+                    <div class="form-group">
+                        <input type="email" class="email-input" placeholder="Enter your email address" required>
+                        <button type="submit" class="notify-btn">Notify Me</button>
+                    </div>
+                </form>
             </div>
-          </div>
-          <div class="review-item">
-            <div class="review-text">
-              #2 Listen to Chelsea explain how I created a website that met her every need!
-            </div>
-            <div class="review-author">
-              <div class="avatar">
-                <img  id ="playButtonTwo" class="play-button" data-audio-target="audioTwo"src="./assets/images/ava-1.jpg" alt="Play Button">
-                <audio id ="audioTwo" src="/assets/audio/Testimonial 2.mp3"></audio>
-              </div>
-              <div class="details">
-                <div  class="name">Client B</div>
-                <div class="company">Small Business B</div>
-              </div>
-            </div>
-          </div>
-          <div class="review-item">
-            <div class="review-text">
-              #3 Listen to Jason explain how I created a website that met his every need!
-            </div>
-            <div class="review-author">
-              <div class="avatar">
-                <img  id ="playButtonThree"  class="play-button" data-audio-target="audioThree"src="./assets/images/ava-1.jpg" alt="Play Button">
-                <audio id ="audioThree" src="/assets/audio/Testimonial 3.mp3"></audio>
-              </div>
-              <div class="details">
-                <div  class="name">Client C</div>
-                <div class="company">Small Business C</div>
-              </div>
-            </div>
-          </div>
-          <div class="review-item">
-            <div class="review-text">
-              #4 Listen to Robert explain how I created a website that met his every need!
-            </div>
-            <div class="review-author">
-              <div class="avatar">
-                <img  id ="playButtonFour"  class="play-button" data-audio-target="audioFour" src="./assets/images/ava-1.jpg" alt="Play Button">
-                <audio id ="audioFour" src="/assets/audio/Testimonial 4.mp3"></audio>
+        </div>
+
+        <div class="social-links">
+            <a href="https://github.com/Rakeem-C" class="social-link" target="_blank" aria-label="GitHub">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="https://linkedin.com/in/rakeemchapman" class="social-link" target="_blank" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="https://twitter.com/rakeemchapman" class="social-link" target="_blank" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="mailto:hello@rakeemchapman.com" class="social-link" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2026 Rakeem Chapman. All rights reserved.</p>
+            <p>Website launching soon. Follow for updates.</p>
+        </div>
+    </div>
+
+    <script>
+        // Countdown Timer - Set launch date to 30 days from now
+        const launchDate = new Date();
+        launchDate.setDate(launchDate.getDate() + 30);
+        launchDate.setHours(12, 0, 0, 0); // Set to noon
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = launchDate - now;
+
+            if (distance < 0) {
+                document.getElementById('countdown').innerHTML = '<div class="countdown-item"><span class="countdown-number">🎉</span><span class="countdown-label">We\'re Live!</span></div>';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        // Update countdown every second
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Email notification form
+        document.getElementById('notify-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const emailInput = this.querySelector('.email-input');
+            const email = emailInput.value.trim();
+            
+            if (email && validateEmail(email)) {
+                // In a real implementation, you would send this to a backend
+                // For now, we'll just show a success message
+                alert(`Thank you! We'll notify you at ${email} when we launch.`);
+                emailInput.value = '';
                 
-              </div>
-              <div class="details">
-                <div  class="name">Client D</div>
-                <div class="company">Small Business D</div>
-              </div>
-            </div>
-          </div>
-          <div class="slide-ctrl-container">
-            <button>
-              <i class="fas fa-arrow-left"></i>
-            </button>
-            <button>
-              <i class="fas fa-arrow-right"></i>
-            </button>
-          </div>
-        </div>
+                // You could integrate with a service like Mailchimp here
+                // Example: fetch('/api/subscribe', { method: 'POST', body: JSON.stringify({ email }) })
+            } else {
+                alert('Please enter a valid email address.');
+            }
+        });
 
-      <</section>
-    
-    
-      <section class="schedule-a-call">
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
 
-        <h2 class="header-md">Let's Talk</h2>
-  <!-- Modals -->
-  <!-- About Page Modal -->
-
-        </section>
-    
-  <div id="about" class="full-site-modal page-block " data-animation="zoomInOut">
-   <div class="container-fluid">
-    <header class= "modal-header">
-      <h3>ABOUT PAGE</h3>
-      <i class="fas fa-times" data-close></i>
-    </header>
-    <div class="modal-body">
-      <div class=" img-wrapper">
-        <img src="assets/images/Pro photo.webp" alt="head shot">
-      </div>
-      <div class="about-text"> 
-        <h2 class="header-md">Rakeem Chapman</h2>
-        <p>I work with small businesses to create engaging websites that clearly communicates their value proposition and converts casual viewers into paying customers.</p>
-        <p> </p>
-      </div>
-     </div>
-     <div class="marquee">
-      <ul class="marquee-content">
-        <li><i class="fab fa-github"></i></li>
-        <li><i class="fab fa-codepen"></i></li>
-        <li><i class="fab fa-dev"></i></li>
-        <li><i class="fab fa-react"></i></li>
-        <li><i class="fab fa-vuejs"></i></li>
-        <li><i class="fab fa-angular"></i></li>
-        <li><i class="fab fa-node"></i></li>
-        <li><i class="fab fa-aws"></i></li>
-        <li><i class="fab fa-docker"></i></li>
-        <li><i class="fab fa-android"></i></li>
-      </ul>
-     </div>
-   </div>
-  </div>
-
-<!-- Contact Page Modal -->
-
-  <div id="contact" class="full-site-modal page-block " data-animation="zoomInOut">
-    <div class="container-fluid">
-      <header class= "modal-header">
-        <h3>Contact Page</h3>
-        <i class="fas fa-times" data-close></i>
-      </header>
-      <div class="modal-body">
-        <div class="contact-text">
-          <h2 class="header-md">CONTACT US</h2>
-          <div>Have a project or question? Send me a message</div>
-          <div>I will reply within 48hrs.</div>
-        </div>
-        <form class="folio-form">
-          <input class="form-control" name="name" type="text" placeholder="Name">
-          <input class="form-control"name="email" type="email" placeholder="Email">
-          <input class="form-control"name="subject" type="text" placeholder="Subject">
-          <textarea class="form-control"name="message" cols="30" rows="3" placeholder="Write your message"></textarea>
-          <input type="submit" value="Send" class="btn btn-primary round-pill">
-        </form >
-      </div>
-    </div>
-  </div>
-
-<!-- Popup Modals -->
-
- </main>
-
- 
- <script src="/JS/main.js"></script>
-  <script src="/JS/carousel.js"></script>
-  
-  
+        // Add some interactive effects
+        document.querySelectorAll('.countdown-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.05)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
 </body>
 </html>

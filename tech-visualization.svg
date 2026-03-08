@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <defs>
+    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="gradient2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#2563eb" stop-opacity="0.6"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="400" fill="#0f172a"/>
+  
+  <!-- Main circuit-like structure -->
+  <g filter="url(#glow)">
+    <!-- Central hexagon -->
+    <polygon points="400,200 450,170 500,200 500,250 450,280 400,250" 
+             fill="url(#gradient1)" stroke="#2563eb" stroke-width="2" opacity="0.7"/>
+    
+    <!-- Connecting lines -->
+    <line x1="400" y1="200" x2="300" y2="150" stroke="#2563eb" stroke-width="2" opacity="0.5"/>
+    <line x1="400" y1="200" x2="500" y2="150" stroke="#7c3aed" stroke-width="2" opacity="0.5"/>
+    <line x1="400" y1="200" x2="300" y2="250" stroke="#2563eb" stroke-width="2" opacity="0.5"/>
+    <line x1="400" y1="200" x2="500" y2="250" stroke="#7c3aed" stroke-width="2" opacity="0.5"/>
+    
+    <!-- Outer nodes -->
+    <circle cx="300" cy="150" r="15" fill="url(#gradient2)" stroke="#7c3aed" stroke-width="2"/>
+    <circle cx="500" cy="150" r="15" fill="url(#gradient1)" stroke="#2563eb" stroke-width="2"/>
+    <circle cx="300" cy="250" r="15" fill="url(#gradient2)" stroke="#7c3aed" stroke-width="2"/>
+    <circle cx="500" cy="250" r="15" fill="url(#gradient1)" stroke="#2563eb" stroke-width="2"/>
+    
+    <!-- Data flow lines (animated) -->
+    <path d="M300,150 Q350,100 400,200 Q450,300 500,250" 
+          stroke="url(#gradient1)" stroke-width="3" fill="none" opacity="0.6">
+      <animate attributeName="stroke-dashoffset" from="100" to="0" dur="3s" repeatCount="indefinite"/>
+    </path>
+    
+    <path d="M500,150 Q450,100 400,200 Q350,300 300,250" 
+          stroke="url(#gradient2)" stroke-width="3" fill="none" opacity="0.6">
+      <animate attributeName="stroke-dashoffset" from="0" to="100" dur="3s" repeatCount="indefinite"/>
+    </path>
+    
+    <!-- Floating particles -->
+    <circle cx="250" cy="100" r="3" fill="#2563eb" opacity="0.7">
+      <animate attributeName="cy" values="100;120;100" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="550" cy="100" r="3" fill="#7c3aed" opacity="0.7">
+      <animate attributeName="cy" values="100;80;100" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="250" cy="300" r="3" fill="#7c3aed" opacity="0.7">
+      <animate attributeName="cy" values="300;280;300" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="550" cy="300" r="3" fill="#2563eb" opacity="0.7">
+      <animate attributeName="cy" values="300;320;300" dur="2.7s" repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- Binary code background effect -->
+    <text x="100" y="50" fill="#2563eb" opacity="0.2" font-family="monospace" font-size="14">
+      1010 0101 1100
+      <animate attributeName="x" values="100;110;100" dur="4s" repeatCount="indefinite"/>
+    </text>
+    <text x="650" y="350" fill="#7c3aed" opacity="0.2" font-family="monospace" font-size="14">
+      0011 1010 0110
+      <animate attributeName="x" values="650;640;650" dur="4s" repeatCount="indefinite"/>
+    </text>
+  </g>
+  
+  <!-- Tech elements -->
+  <g opacity="0.8">
+    <!-- Chip symbol -->
+    <rect x="200" y="320" width="40" height="40" rx="5" fill="#1e293b" stroke="#2563eb" stroke-width="2"/>
+    <line x1="210" y1="330" x2="230" y2="330" stroke="#7c3aed" stroke-width="2"/>
+    <line x1="210" y1="340" x2="230" y2="340" stroke="#7c3aed" stroke-width="2"/>
+    <line x1="210" y1="350" x2="230" y2="350" stroke="#7c3aed" stroke-width="2"/>
+    
+    <!-- Code bracket -->
+    <text x="600" y="80" fill="#2563eb" font-family="monospace" font-size="24" font-weight="bold">{ }</text>
+    
+    <!-- AI brain symbol -->
+    <circle cx="700" y="320" r="20" fill="#1e293b" stroke="#7c3aed" stroke-width="2"/>
+    <path d="M690,310 Q700,300 710,310 Q720,320 710,330 Q700,340 690,330 Q680,320 690,310" 
+          fill="none" stroke="#2563eb" stroke-width="2"/>
+  </g>
+  
+  <!-- Title text -->
+  <text x="400" y="380" text-anchor="middle" fill="#f8fafc" font-family="'Space Grotesk', sans-serif" font-size="24" font-weight="600">
+    Building the Future
+  </text>
+</svg>
