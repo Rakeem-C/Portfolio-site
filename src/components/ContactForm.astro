@@ -21,6 +21,10 @@ const apiUrl = import.meta.env.PUBLIC_CONTACT_API || '/api/contact';
   {sitekey && <div class="cf-turnstile" data-sitekey={sitekey} data-size="flexible" data-theme="light"></div>}
   <button class="btn" type="submit">Send message →</button>
   <p class="status" role="status" aria-live="polite"></p>
+  <noscript>
+    <p class="status err">Sending a message requires JavaScript — it proves you're human and protects against spam.</p>
+    <style>.cform .btn{display:none}</style>
+  </noscript>
 </form>
 {sitekey && <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer is:inline></script>}
 

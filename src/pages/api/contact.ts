@@ -126,10 +126,27 @@ export const POST: APIRoute = async ({ request, clientAddress, url }) => {
       });
       if (!res.ok) return fail(502);
     } else if (process.env.CONTACT_WEBHOOK_URL) {
+      // Optional extras for receivers that need auth and/or a different shape:
+      // CONTACT_WEBHOOK_AUTH   -> sent as `Authorization: Bearer <value>`
+      // CONTACT_WEBHOOK_FIELDS -> JSON template; {{name}} {{email}} {{message}}
+      //                           {{subject}} {{at}} placeholders are replaced
+      //                           with the escaped values (supports nesting).
+      const template = process.env.CONTACT_WEBHOOK_FIELDS;
+      let body = JSON.stringify(payload);
+      if (template) {
+        body = template.replace(/\{\{(name|email|message|subject|at)\}\}/g, (m, key: string) =>
+          JSON.stringify((payload as Record<string, string>)[key] ?? '').slice(1, -1),
+        );
+      }
       const res = await fetch(process.env.CONTACT_WEBHOOK_URL, {
         method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(payload),
+        headers: {
+          'content-type': 'application/json',
+          ...(process.env.CONTACT_WEBHOOK_AUTH
+            ? { authorization: `Bearer ${process.env.CONTACT_WEBHOOK_AUTH}` }
+            : {}),
+        },
+        body,
       });
       if (!res.ok) return fail(502);
     } else {
