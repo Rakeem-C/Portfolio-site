@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import nodemailer from 'nodemailer';
 
 export const prerender = false;
 
@@ -79,12 +80,16 @@ export const POST: APIRoute = async ({ request, url }) => {
   // Honeypot: real users never see or fill this field.
   if (fields.website) return done();
 
-  if (!name || name.length > 120 || email.length > 200 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || message.length < 5 || message.length > 5000) {
+  if (!name || name.length > 120 || email.length > 200 || !/^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)+$/i.test(email) || message.length < 5 || message.length > 5000) {
     return fail(400, 'Check your name, email, and message and try again.');
   }
 
-  const useResend = process.env.RESEND_API_KEY && process.env.CONTACT_TO;
-  if (!useResend && !process.env.CONTACT_WEBHOOK_URL) {
+  const recipient = process.env.CONTACT_TO?.trim();
+  const smtpUser = process.env.SMTP_USERNAME?.trim();
+  const smtpPassword = process.env.SMTP_PASSWORD?.trim();
+  const useSmtp = Boolean(recipient && smtpUser && smtpPassword);
+  const useResend = process.env.RESEND_API_KEY && recipient;
+  if (!useSmtp && !useResend && !process.env.CONTACT_WEBHOOK_URL) {
     return fail(503, 'The contact form is temporarily unavailable. Your message was not sent.');
   }
   if (process.env.TURNSTILE_SECRET_KEY) {
@@ -96,7 +101,7 @@ export const POST: APIRoute = async ({ request, url }) => {
   }
 
   const payload = {
-    subject: `rakeemchapman.com contact — ${name}`,
+    subject: `rakeemchapman.com contact — ${name.replace(/[\r\n]+/g, ' ')}`,
     name,
     email,
     message,
@@ -104,7 +109,27 @@ export const POST: APIRoute = async ({ request, url }) => {
   };
 
   try {
-    if (useResend) {
+    if (useSmtp) {
+      const port = Number(process.env.SMTP_PORT || 587);
+      const transport = nodemailer.createTransport({
+        host: process.env.SMTP_HOST?.trim() || 'smtp.protonmail.ch',
+        port,
+        secure: process.env.SMTP_SECURE?.trim().toLowerCase() === 'true' || port === 465,
+        requireTLS: true,
+        auth: { user: smtpUser, pass: smtpPassword },
+        connectionTimeout: 8000,
+        greetingTimeout: 8000,
+        socketTimeout: 10000,
+      });
+      const result = await transport.sendMail({
+        from: { name: 'Rakeem Chapman website', address: process.env.SMTP_FROM?.trim() || smtpUser! },
+        to: { address: recipient!, name: '' },
+        replyTo: { address: email, name: '' },
+        subject: payload.subject,
+        text: `From: ${name} <${email}>\n\n${message}`,
+      });
+      if (result.accepted.length !== 1 || result.rejected.length > 0) return fail(502);
+    } else if (useResend) {
       const res = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         redirect: 'error',
@@ -115,7 +140,7 @@ export const POST: APIRoute = async ({ request, url }) => {
         },
         body: JSON.stringify({
           from: process.env.CONTACT_FROM ?? 'contact@rakeemchapman.com',
-          to: [process.env.CONTACT_TO],
+          to: [recipient],
           reply_to: email,
           subject: payload.subject,
           text: `From: ${name} <${email}>\n\n${message}`,
