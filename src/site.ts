@@ -12,6 +12,7 @@ export const NAV = [
   { href: '/#idea', label: 'The idea' },
   { href: '/portfolio', label: 'Portfolio' },
   { href: '/blog', label: 'Blog' },
+  { href: 'https://meet.automationation.com/', label: 'Open Meet' },
 ];
 
 export const SERIES = {
