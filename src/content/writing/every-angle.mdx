@@ -1,0 +1,36 @@
+---
+title: "Every angle: how I look for root causes"
+description: "Most bad decisions come from solving the wrong problem well. Here is the method I use to make sure I’m looking at the cause and not a convincing symptom."
+date: 2026-11-01
+series: root-cause
+draft: true
+---
+
+The most expensive mistakes I’ve seen weren’t sloppy. They were careful, well-executed solutions to the wrong problem.
+
+That happens because symptoms are persuasive. They show up first, they’re easy to see, and they come with a story attached. The cause is usually quieter and one level down.
+
+## The method
+
+**1. Measure before you explain.** Write down what the data actually says before forming a theory. Stories are cheap. Numbers push back.
+
+**2. Reduce to what must be true.** Strip away assumptions one at a time. What’s left is the part of the problem you can reason about from first principles.
+
+**3. Attack from every angle.** I run through six on purpose:
+
+- **Data:** What do the numbers say, and what would they say if I were wrong?
+- **Incentives:** Who benefits if this stays broken?
+- **Workflow:** Where does the work really happen, as opposed to where the diagram says it happens?
+- **Tools:** Is the tool failing, or is it being used for the wrong job?
+- **People:** What do they know, and what are they afraid of?
+- **Physics:** What constraints can’t change, no matter how good the idea is?
+
+If an explanation only survives from one of these directions, it’s probably a symptom.
+
+**4. Prove it.** A fix isn’t finished when it ships. It’s finished when the evidence shows the failure can’t quietly come back.
+
+## Why this matters for AI
+
+AI makes it cheaper than ever to produce a confident answer. That makes this habit more important, not less. The faster you can generate solutions, the more it costs to aim them at the wrong problem.
+
+> Draft note: add a real example where the first explanation was wrong and the method found the real cause.

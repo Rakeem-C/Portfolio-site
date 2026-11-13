@@ -1,0 +1,51 @@
+---
+import { SERIES } from '../site';
+import { formatDate, readingMinutes, type Post } from '../lib/posts';
+interface Props { posts: Post[]; }
+const { posts } = Astro.props;
+---
+{posts.length === 0 ? (
+  <div class="empty">
+    <p class="label">Essay 001 · coming soon</p>
+    <p>I’m writing the first essays now. Follow the <a href="/rss.xml">RSS feed</a>, or <a href="/#contact">say hello</a> and I’ll send them to you as soon as they’re out.</p>
+  </div>
+) : (
+  <ol class="posts">
+    {posts.map((p, i) => (
+      <li>
+        <a href={`/blog/${p.id}`}>
+          <span class="no">{String(posts.length - i).padStart(3, '0')}</span>
+          <span class="body">
+            <span class="title">{p.data.title}</span>
+            <span class="desc">{p.data.description}</span>
+          </span>
+          <span class="meta">
+            <time datetime={p.data.date.toISOString()}>{formatDate(p.data.date)}</time>
+            <span>{readingMinutes(p)} min</span>
+            <span class="tag">{SERIES[p.data.series].label}</span>
+            {p.data.draft && <span class="tag draft">Draft</span>}
+          </span>
+        </a>
+      </li>
+    ))}
+  </ol>
+)}
+<style>
+  .posts { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+  li { border-bottom: 1px solid var(--rule); }
+  a { display: grid; grid-template-columns: 64px 1fr 200px; gap: 24px; padding: 24px 0; text-decoration: none; }
+  a:hover .title { color: var(--accent); }
+  .no { font: 500 .8rem var(--mono); color: var(--accent); padding-top: .4em; }
+  .body { display: grid; gap: 6px; }
+  .title { font: 480 1.55rem/1.2 var(--serif); letter-spacing: -0.01em; transition: color .15s; }
+  .desc { color: var(--ink-2); }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px 10px; align-content: start; justify-content: flex-end; font: .75rem var(--mono); color: var(--ink-3); padding-top: .4em; }
+  .meta time { width: 100%; text-align: right; }
+  .empty { border: 1px dashed var(--ink-3); padding: 28px; background: repeating-linear-gradient(135deg, transparent 0 12px, var(--grid) 12px 13px); }
+  .empty p:last-child { font: 1.2rem/1.5 var(--serif); margin: 0; max-width: 34em; }
+  @media (max-width: 760px) {
+    a { grid-template-columns: 40px 1fr; gap: 8px 14px; }
+    .meta { grid-column: 2; justify-content: flex-start; }
+    .meta time { width: auto; text-align: left; }
+  }
+</style>

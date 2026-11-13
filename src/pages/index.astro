@@ -1,0 +1,288 @@
+---
+import Base from '../layouts/Base.astro';
+import Diffusion from '../components/Diffusion.astro';
+import Fishbone from '../components/Fishbone.astro';
+import PostList from '../components/PostList.astro';
+import { getPosts } from '../lib/posts';
+import ContactForm from '../components/ContactForm.astro';
+const posts = (await getPosts()).slice(0, 3);
+
+const gap = [
+  { v: '50×', k: 'Top 1% of AI users', p: 'More output from the same models, through better workflows.' },
+  { v: '1.5×', k: 'The median user', p: 'Occasional use, mostly as a better search engine. Still thinks prompt engineering is cutting edge.' },
+  { v: 'Same tools', k: 'What’s different', p: 'Not access. How the tools are used.' },
+];
+
+const drivers = [
+  { h: 'Knowing what’s possible', p: 'You can’t ask a model to do something you don’t know it can do.' },
+  { h: 'Structuring the work', p: 'Models do well on clear, well-defined tasks. Most real work has to be broken down first.' },
+  { h: 'Checking the output', p: 'If you can’t tell a good answer from a confident wrong one, you can’t rely on it.' },
+  { h: 'Fitting the workflow', p: 'A tool in a separate tab gets used once in a while. A tool built into the process gets used every day.' },
+];
+
+const method = [
+  { n: '01', h: 'Look at the data', p: 'What do the numbers say before I form an opinion?' },
+  { n: '02', h: 'Reduce it', p: 'What has to be true for this to work? Everything else is an assumption to test.' },
+  { n: '03', h: 'Test every angle', p: 'Does the explanation hold up against the data, incentives, workflow, tools, people and hard constraints?' },
+  { n: '04', h: 'Verify', p: 'Is there evidence the fix worked and that the problem won’t come back?' },
+];
+
+const work = [
+  { q: 'Evaluating models', a: 'Measuring how frontier models perform on expert-level tasks, and writing down exactly where and why they fail.' },
+  { q: 'Robotics data', a: 'Evaluating raw robotics data and turning it into structured data that training runs can use to make robots better at real-world tasks.' },
+  { q: 'AI in operating businesses', a: 'Building AI systems for service businesses, starting with lead response and follow-up, where slow processes cost the most.' },
+  { q: 'The blog', a: 'Turning what I learn into posts that are useful to people who don’t work near the frontier.' },
+];
+
+const people = [
+  { h: 'Heavy AI users', p: 'You’ve seen what the tools can do and want to compare notes on what actually works.' },
+  { h: 'Operators', p: 'You run a business or a team and want to know where AI would make a measurable difference.' },
+  { h: 'Builders', p: 'You’re building products that help more people get more out of AI.' },
+];
+---
+<Base>
+  <!-- Hero -->
+  <section class="hero wrap">
+    <div class="hero-copy">
+      <p class="hi">Hi, I’m</p>
+      <h1 class="name">Rakeem Chapman.</h1>
+      <p class="tagline">I work on <em>diffusing the benefits of AI</em> to everyday&nbsp;businesses.</p>
+      <p class="intro">AI’s productivity gains aren’t spread evenly. While the most advanced users get 50 times more done, the typical user gets only a small fraction of that. They’re using the same models. The difference is how they use them, and that difference can be learned and built. I’m working on closing the gap, and I build things that test it.</p>
+      <div class="ctas">
+        <a class="btn" href="#idea">The idea</a>
+        <a class="btn line" href="/blog">Read the blog</a>
+      </div>
+    </div>
+    <figure class="hero-photo">
+      <img src="/images/hero.webp" alt="Rakeem Chapman speaking at a podium" width="800" height="1001" fetchpriority="high" />
+      <figcaption><span class="dot"></span>Bending the median</figcaption>
+    </figure>
+  </section>
+
+  <section class="gap">
+    <dl class="wrap">
+      {gap.map((g) => (<div><dt class="label">{g.k}</dt><dd><span class="v">{g.v}</span><span class="p">{g.p}</span></dd></div>))}
+    </dl>
+    <p class="wrap gap-note label">Illustrative figures for the shape of the distribution, not a measured study.</p>
+  </section>
+
+  <!-- The idea -->
+  <section class="sec" id="idea">
+    <div class="wrap">
+      <div class="split-head">
+        <div>
+          <p class="label kicker">The idea</p>
+          <h2>Same models. Very different&nbsp;results.</h2>
+        </div>
+        <div class="split-body">
+          <p>A small group of users, mostly people at or near the AI labs and in technical roles, get an order of magnitude more out of AI than everyone else. Further down the distribution, the gains drop off fast.</p>
+          <p>Access isn’t the bottleneck. Anyone can sign up for the same tools. The gap comes from four things, and each one can be taught or built into a product.</p>
+        </div>
+      </div>
+      <ol class="drivers">
+        {drivers.map((d, i) => (<li><span class="label accent">0{i + 1}</span><h3>{d.h}</h3><p>{d.p}</p></li>))}
+      </ol>
+      <Diffusion />
+    </div>
+  </section>
+
+  <!-- Why the median -->
+  <section class="story">
+    <div class="wrap story-grid">
+      <figure class="story-photo">
+        <img src="/images/mural.webp" alt="Rakeem Chapman" width="1100" height="825" loading="lazy" />
+      </figure>
+      <div class="story-copy">
+        <p class="label kicker">Bend the median</p>
+        <h2>Small gains on a large base beat large gains on a small&nbsp;base.</h2>
+        <ol class="reasons">
+          <li>
+            <span class="n">01</span>
+            <div><h3>The middle is most of the economy.</h3><p>Small businesses employ 45.9% of U.S. private-sector workers and produce 43.5% of GDP.<sup><a href="#src-sba">1</a></sup> That’s where the middle of the AI curve is.</p></div>
+          </li>
+          <li>
+            <span class="n">02</span>
+            <div><h3>The math favors breadth.</h3><p>In a 100-person company, pushing one power user from 50× to 60× adds about 10 people’s worth of output. Moving the other 99 from 1.5× to 3× adds about 149.</p></div>
+          </li>
+          <li>
+            <span class="n">03</span>
+            <div><h3>It’s underserved.</h3><p>Most AI products are built for people who already use AI well. Very few are built for a business that still runs on phone calls, paper and spreadsheets.</p></div>
+          </li>
+        </ol>
+        <p class="close">That’s the opportunity: take what already works at the top and build it into the way everyday businesses operate.</p>
+        <p class="src" id="src-sba">1. U.S. Small Business Administration, Office of Advocacy, <a href="https://advocacy.sba.gov/wp-content/uploads/2026/02/FINAL_FAQsAboutSmallBusiness_2026_012826.pdf">Frequently Asked Questions About Small Business</a>, February 2026.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How I think -->
+  <section class="sec" id="method">
+    <div class="wrap">
+      <div class="split-head">
+        <div>
+          <p class="label kicker">How I think</p>
+          <h2>Find the root cause before fixing&nbsp;anything.</h2>
+        </div>
+        <div class="split-body">
+          <p>A problem usually shows up as a symptom first. Fix the symptom and the problem comes back in a different form.</p>
+          <p>So before I commit to an explanation, I look at it from every angle I can and only accept it once it holds up from all of them.</p>
+        </div>
+      </div>
+      <Fishbone />
+      <ol class="method">
+        {method.map((m) => (<li><span class="label accent">{m.n}</span><h3>{m.h}</h3><p>{m.p}</p></li>))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Where the ideas get tested -->
+  <section class="sec work">
+    <div class="wrap">
+      <div class="split-head">
+        <div>
+          <p class="label kicker">What I work on</p>
+          <h2>Where the ideas get&nbsp;tested.</h2>
+        </div>
+        <div class="split-body">
+          <p>I split my time between work close to the frontier and work far from it. The frontier shows me what AI can do. The field shows me what gets in the way.</p>
+        </div>
+      </div>
+      <dl class="angles">
+        {work.map((a, i) => (<div><dt><span class="label">0{i + 1}</span>{a.q}</dt><dd>{a.a}</dd></div>))}
+      </dl>
+    </div>
+  </section>
+
+  <!-- Blog -->
+  <section class="sec">
+    <div class="wrap">
+      <div class="row-head">
+        <div>
+          <p class="label kicker">Blog</p>
+          <h2>Recent posts.</h2>
+        </div>
+        <a class="btn line" href="/blog">All posts →</a>
+      </div>
+      <PostList posts={posts} />
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact" id="contact">
+    <div class="wrap contact-grid">
+      <div>
+        <p class="label kicker">Contact</p>
+        <h2>Let’s talk.</h2>
+        <p class="contact-lede">If you’re working on getting more out of AI, for yourself, your business or your customers, I’d like to hear what you’re seeing.</p>
+        <div class="people">
+          {people.map((p) => (<div><h3>{p.h}</h3><p>{p.p}</p></div>))}
+        </div>
+      </div>
+      <ContactForm />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .kicker { color: var(--accent); margin-bottom: 14px; }
+
+  /* Hero */
+  .hero { display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: center; padding: 64px 0 72px; }
+  .hi { font: italic 400 1.6rem/1 var(--serif); color: var(--ink-2); margin: 0 0 6px; }
+  .name { font-size: clamp(3.2rem, 7.6vw, 6.6rem); line-height: .95; margin: 0 0 22px; }
+  .tagline { font: 400 clamp(1.6rem, 3vw, 2.4rem)/1.15 var(--serif); letter-spacing: -0.015em; margin: 0 0 26px; }
+  .tagline em { color: var(--accent); font-style: italic; }
+  .intro { font-size: 1.08rem; color: var(--ink-2); max-width: 34em; }
+  .ctas { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 30px; }
+  .hero-photo { margin: 0; position: relative; }
+  .hero-photo img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border: 1px solid var(--ink); box-shadow: 14px 14px 0 var(--accent); }
+  .hero-photo figcaption { position: absolute; left: -18px; bottom: 28px; background: var(--paper); border: 1px solid var(--ink); padding: 9px 12px; font: 500 .72rem var(--mono); letter-spacing: .08em; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); display: inline-block; }
+
+  /* Gap strip */
+  .gap { border-block: 1px solid var(--ink); background: var(--paper-2); padding-bottom: 12px; }
+  .gap dl { display: grid; grid-template-columns: repeat(3, 1fr); margin-block: 0; }
+  .gap dl div { padding: 22px 22px 10px; }
+  .gap dl div + div { border-left: 1px solid var(--rule); }
+  .gap dt { margin-bottom: 8px; }
+  .gap dd { margin: 0; display: grid; gap: 4px; }
+  .gap .v { font: 480 clamp(2rem, 3.6vw, 2.8rem)/1 var(--serif); letter-spacing: -0.02em; }
+  .gap div:first-child .v { color: var(--accent); }
+  .gap .p { color: var(--ink-2); font-size: .95rem; }
+  .gap-note { margin-top: 4px; padding-left: 22px; font-size: .64rem; }
+
+  /* Shared section heads */
+  .split-head { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; margin-bottom: 44px; align-items: end; }
+  .split-head h2 { margin: 0; }
+  .split-body p { color: var(--ink-2); }
+  .split-body p:last-child { margin-bottom: 0; }
+  .row-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
+  .row-head h2 { margin: 0; }
+
+  .drivers { list-style: none; margin: 0 0 48px; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ink); }
+  .drivers li { padding: 20px 22px 4px 0; }
+  .drivers li + li { padding-left: 22px; border-left: 1px solid var(--rule); }
+  .drivers h3 { margin: 10px 0 8px; }
+  .drivers p { color: var(--ink-2); font-size: .95rem; }
+
+  /* Why the median */
+  .story { background: var(--ink); color: var(--paper); padding: 96px 0; }
+  .story-grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 64px; align-items: center; }
+  .story-photo { margin: 0; }
+  .story-photo img { width: 100%; height: auto; border: 1px solid #3a3935; box-shadow: -14px 14px 0 var(--accent); }
+  .story .kicker { color: #8fa0ff; }
+  .story-copy p { color: #c4c1b8; }
+  .reasons { list-style: none; margin: 26px 0 0; padding: 0; }
+  .reasons li { display: grid; grid-template-columns: 44px 1fr; gap: 14px; padding: 16px 0; border-top: 1px solid #3a3935; }
+  .reasons .n { font: 500 .8rem var(--mono); color: #8fa0ff; padding-top: .35em; }
+  .reasons h3 { margin: 0 0 6px; font-size: 1.25rem; color: var(--paper); }
+  .reasons p { margin: 0; font-size: .97rem; }
+  .reasons sup a { color: #8fa0ff; text-decoration: none; font: 500 .7rem var(--mono); margin-left: 2px; }
+  .story-copy .close { font: italic 400 1.25rem/1.4 var(--serif); color: var(--paper); margin: 20px 0 18px; padding-top: 18px; border-top: 1px solid #3a3935; }
+  .story-copy .src { font: .7rem/1.5 var(--mono); color: #85827a; margin: 0; }
+  .story-copy .src a { color: #a9a69c; }
+
+  /* Method */
+  .method { list-style: none; margin: 40px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+  .method h3 { margin: 10px 0 8px; }
+  .method p { color: var(--ink-2); font-size: .95rem; margin: 0; }
+
+  /* Work */
+  .angles { margin: 0; border-top: 1px solid var(--ink); }
+  .angles div { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; padding: 26px 0; border-bottom: 1px solid var(--rule); }
+  .angles dt { font: 480 1.5rem/1.25 var(--serif); letter-spacing: -0.01em; display: flex; gap: 16px; align-items: baseline; }
+  .angles dt .label { color: var(--accent); }
+  .angles dd { margin: 0; color: var(--ink-2); }
+
+  /* Contact */
+  .contact { background: var(--accent); color: #fff; padding: 96px 0; }
+  .contact-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 64px; align-items: center; }
+  .contact .kicker { color: rgba(255, 255, 255, .75); }
+  .contact h2 { font-size: clamp(2.2rem, 4.6vw, 3.6rem); }
+  .contact-lede { font: 400 1.25rem/1.5 var(--serif); color: rgba(255, 255, 255, .88); max-width: 32em; }
+  .people { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 36px; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, .3); }
+  .people h3 { margin-bottom: 6px; }
+  .people p { margin: 0; color: rgba(255, 255, 255, .82); font-size: .95rem; }
+  .reach { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 40px; }
+
+  @media (max-width: 960px) {
+    .hero, .story-grid, .split-head, .contact-grid { grid-template-columns: 1fr; gap: 36px; }
+    .hero { padding-top: 36px; }
+    .hero-photo { max-width: 440px; }
+    .gap dl { grid-template-columns: 1fr; }
+    .gap dl div + div { border-left: 0; border-top: 1px solid var(--rule); }
+    .drivers { grid-template-columns: 1fr 1fr; }
+    .drivers li:nth-child(3) { padding-left: 0; border-left: 0; }
+    .method { grid-template-columns: 1fr 1fr; }
+    .angles div { grid-template-columns: 1fr; gap: 8px; }
+    .people { grid-template-columns: 1fr; }
+    .cform { order: -1; }
+  }
+  @media (max-width: 560px) {
+    .drivers, .method { grid-template-columns: 1fr; }
+    .drivers li + li { padding-left: 0; border-left: 0; border-top: 1px solid var(--rule); }
+    .hero-photo figcaption { left: 10px; }
+    .hero-photo img { box-shadow: 8px 8px 0 var(--accent); }
+    .story, .contact { padding: 72px 0; }
+  }
+</style>

@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Not found">
+  <section class="wrap nf">
+    <p class="label"><span class="accent">●</span> 404 · An outlier</p>
+    <h1>This page is way off the curve.</h1>
+    <p class="lede">It doesn’t exist, or it’s moved. My best guess at the root cause: an old link.</p>
+    <a class="btn" href="/">Take me home</a>
+  </section>
+</Base>
+<style>
+  .nf { padding: 120px 0; }
+  .nf h1 { margin: 20px 0; }
+  .nf .lede { margin-bottom: 32px; }
+</style>

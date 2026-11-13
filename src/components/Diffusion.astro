@@ -1,0 +1,229 @@
+---
+// Illustrative model, not measured data.
+// Each cell is a person with AI leverage L in [0, 1]. Sources hold their value: the frontier
+// at L = 1, and any "translators" the reader places at a weaker L = 0.45. Every step, leverage
+// diffuses to neighbors and decays without reinforcement:  L += k * (mean(neighbors) - L) - d * L.
+// The transfer slider sets how far leverage travels (as a fraction of the field width, log scale).
+// Calibrated so "today" reads ~1.0x median with the top 1% holding ~80% of gains.
+---
+<figure class="fig diffusion" data-diffusion>
+  <div class="fig-bar">
+    <p class="label">Interactive · How AI’s gains are distributed</p>
+    <div class="controls">
+      <button class="btn" type="button" data-diffuse aria-pressed="false">Bend the median →</button>
+      <button class="btn line" type="button" data-reset>Reset</button>
+    </div>
+  </div>
+  <div class="stage">
+    <canvas data-canvas role="img" aria-label="A field of dots representing people. A small cluster near the frontier has high AI productivity while most dots stay low. Bending the median spreads the gains outward."></canvas>
+    <p class="hint label">Tap anywhere to add a guide</p>
+  </div>
+  <div class="readout">
+    <label class="slider">
+      <span class="label">How far know-how travels</span>
+      <input type="range" min="0" max="100" value="10" data-transfer />
+    </label>
+    <dl aria-live="polite">
+      <div><dt class="label">Median multiple</dt><dd data-median>1.0×</dd></div>
+      <div><dt class="label">Share of gains, top 1%</dt><dd data-top>0%</dd></div>
+      <div><dt class="label">Users at 2× or more</dt><dd data-reach>0%</dd></div>
+    </dl>
+  </div>
+  <figcaption class="fig-cap">Illustrative model, not measured data. Each dot is a person. The brighter the dot, the bigger their productivity multiple (up to 100×). Know-how spreads outward from the frontier and fades with distance. Each guide you add, a person or a product, becomes a new source of working know-how.</figcaption>
+</figure>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-diffusion]');
+  if (root) {
+    const q = <T extends Element>(s: string) => root.querySelector(s) as T;
+    const canvas = q<HTMLCanvasElement>('[data-canvas]');
+    const ctx = canvas.getContext('2d')!;
+    const slider = q<HTMLInputElement>('[data-transfer]');
+    const diffuseBtn = q<HTMLButtonElement>('[data-diffuse]');
+    const resetBtn = q<HTMLButtonElement>('[data-reset]');
+    const out = { median: q<HTMLElement>('[data-median]'), top: q<HTMLElement>('[data-top]'), reach: q<HTMLElement>('[data-reach]') };
+    const css = getComputedStyle(document.documentElement);
+    const ACCENT = css.getPropertyValue('--accent').trim() || '#2340ff';
+    const INK = css.getPropertyValue('--ink').trim() || '#131312';
+    const FAINT = css.getPropertyValue('--ink-3').trim() || '#85827a';
+    const PAPER = css.getPropertyValue('--paper').trim() || '#f3f1ea';
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const K = 0.5, MAX_MULT = 100, LOW = 10, HIGH = 88, MAX_TRANSLATORS = 30, TRANSLATOR = 0.45;
+    const FRONTIER = { x: 0.14, y: 0.46 };
+
+    let W = 0, H = 0, cols = 0, rows = 0, cell = 14;
+    let L = new Float32Array(0), next = new Float32Array(0), src = new Uint8Array(0);
+    let jx = new Float32Array(0), jy = new Float32Array(0);
+    let translators: { x: number; y: number }[] = [];
+    let t = Number(slider.value), tTarget = t, running = false, visible = true, frame = 0;
+
+    const reachFrac = () => 0.0268 * Math.pow(14.4, t / 100);
+    const decay = () => (K / 4) / (reachFrac() * cols) ** 2;
+    const mult = (l: number) => 1 + (MAX_MULT - 1) * Math.pow(l, 2.5);
+    const rand = (s: number) => { const x = Math.sin(s * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+    function layout() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = canvas.clientWidth; H = canvas.clientHeight;
+      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cell = W < 600 ? 12 : 14;
+      cols = Math.max(8, Math.floor(W / cell)); rows = Math.max(8, Math.floor(H / cell));
+      const n = cols * rows;
+      L = new Float32Array(n); next = new Float32Array(n); src = new Uint8Array(n);
+      jx = new Float32Array(n); jy = new Float32Array(n);
+      for (let i = 0; i < n; i++) { jx[i] = (rand(i) - 0.5) * cell * 0.7; jy[i] = (rand(i + 9e3) - 0.5) * cell * 0.7; }
+      seed();
+    }
+
+    function mark(fx: number, fy: number, radius: number, value: number) {
+      const cx = Math.round(fx * (cols - 1)), cy = Math.round(fy * (rows - 1));
+      for (let y = cy - radius; y <= cy + radius; y++) for (let x = cx - radius; x <= cx + radius; x++) {
+        if (x < 0 || y < 0 || x >= cols || y >= rows || (x - cx) ** 2 + (y - cy) ** 2 > radius * radius + 0.5) continue;
+        const i = y * cols + x;
+        if (src[i] && L[i] >= value) continue;
+        src[i] = 1; L[i] = value;
+      }
+    }
+
+    function seed() {
+      src.fill(0);
+      mark(FRONTIER.x, FRONTIER.y, Math.max(1, Math.round(cols * 0.025)), 1);
+      for (const p of translators) mark(p.x, p.y, 0, TRANSLATOR);
+    }
+
+    function step() {
+      const d = decay();
+      let delta = 0;
+      for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
+        const i = y * cols + x;
+        if (src[i]) { next[i] = L[i]; continue; }
+        let s = 0, c = 0;
+        if (x > 0) { s += L[i - 1]; c++; }
+        if (x < cols - 1) { s += L[i + 1]; c++; }
+        if (y > 0) { s += L[i - cols]; c++; }
+        if (y < rows - 1) { s += L[i + cols]; c++; }
+        const v = Math.max(0, L[i] + K * (s / c - L[i]) - d * L[i]);
+        delta = Math.max(delta, Math.abs(v - L[i]));
+        next[i] = v;
+      }
+      [L, next] = [next, L];
+      return delta;
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      const ox = (W - (cols - 1) * cell) / 2, oy = (H - (rows - 1) * cell) / 2;
+      // Brightness encodes log(output multiple): 1x is a faint dot, 100x is full accent.
+      const LOGMAX = Math.log(MAX_MULT);
+      ctx.fillStyle = FAINT; ctx.globalAlpha = 0.45;
+      ctx.beginPath();
+      for (let i = 0; i < L.length; i++) {
+        const px = ox + (i % cols) * cell + jx[i], py = oy + Math.floor(i / cols) * cell + jy[i];
+        ctx.moveTo(px + 1.1, py); ctx.arc(px, py, 1.1, 0, Math.PI * 2);
+      }
+      ctx.fill();
+      ctx.fillStyle = ACCENT;
+      for (let i = 0; i < L.length; i++) {
+        const g = Math.log(mult(L[i])) / LOGMAX;
+        if (g < 0.03) continue;
+        const px = ox + (i % cols) * cell + jx[i], py = oy + Math.floor(i / cols) * cell + jy[i];
+        ctx.globalAlpha = 0.12 + 0.88 * g;
+        ctx.beginPath(); ctx.arc(px, py, 1.2 + 4.4 * g, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.globalAlpha = 1; ctx.strokeStyle = INK; ctx.lineWidth = 1.2;
+      for (const p of translators) {
+        const i = Math.round(p.y * (rows - 1)) * cols + Math.round(p.x * (cols - 1));
+        const px = ox + (i % cols) * cell + jx[i], py = oy + Math.floor(i / cols) * cell + jy[i];
+        ctx.beginPath(); ctx.arc(px, py, 8, 0, Math.PI * 2); ctx.stroke();
+      }
+      const fx = ox + Math.round(FRONTIER.x * (cols - 1)) * cell, fy = oy + Math.round(FRONTIER.y * (rows - 1)) * cell;
+      ctx.font = '500 10px "JetBrains Mono Variable", monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      const label = 'THE FRONTIER', lw = ctx.measureText(label).width + 12, ly = Math.max(10, fy - 40);
+      ctx.fillStyle = INK; ctx.fillRect(fx - lw / 2, ly - 9, lw, 18);
+      ctx.fillStyle = PAPER; ctx.fillText(label, fx, ly + 0.5);
+    }
+
+    function report() {
+      const m = Array.from(L, mult).sort((a, b) => b - a);
+      const gains = m.map((v) => v - 1);
+      const total = gains.reduce((a, b) => a + b, 0) || 1;
+      const topN = Math.max(1, Math.round(m.length * 0.01));
+      const top = gains.slice(0, topN).reduce((a, b) => a + b, 0) / total;
+      const median = m[Math.floor(m.length / 2)];
+      const reach = m.filter((v) => v >= 2).length / m.length;
+      out.median.textContent = `${median < 10 ? median.toFixed(1) : Math.round(median)}×`;
+      out.top.textContent = `${Math.round(top * 100)}%`;
+      out.reach.textContent = `${Math.round(reach * 100)}%`;
+    }
+
+    function settle() { for (let i = 0; i < 6000 && step() > 1e-5; i++); }
+
+    function loop() {
+      if (!visible) { running = false; return; }
+      if (Math.abs(tTarget - t) > 0.05) { t += (tTarget - t) * 0.06; slider.value = String(Math.round(t)); }
+      else t = tTarget;
+      let delta = 0;
+      for (let i = 0; i < 40; i++) delta = step();
+      draw();
+      if (frame++ % 4 === 0) report();
+      if (delta > 2e-5 || t !== tTarget) requestAnimationFrame(loop);
+      else { report(); running = false; }
+    }
+
+    function kick() {
+      if (reduce) { t = tTarget; slider.value = String(t); settle(); draw(); report(); return; }
+      if (!running) { running = true; requestAnimationFrame(loop); }
+    }
+
+    function setPressed(on: boolean) {
+      diffuseBtn.setAttribute('aria-pressed', String(on));
+      diffuseBtn.textContent = on ? '← Back to today' : 'Bend the median →';
+    }
+
+    diffuseBtn.addEventListener('click', () => {
+      const on = diffuseBtn.getAttribute('aria-pressed') !== 'true';
+      tTarget = on ? HIGH : LOW; setPressed(on); kick();
+    });
+    resetBtn.addEventListener('click', () => {
+      translators = []; tTarget = LOW; setPressed(false); L.fill(0); seed(); kick();
+    });
+    slider.addEventListener('input', () => { t = tTarget = Number(slider.value); setPressed(t > (LOW + HIGH) / 2); kick(); });
+    canvas.addEventListener('pointerdown', (e) => {
+      const r = canvas.getBoundingClientRect();
+      if (translators.length >= MAX_TRANSLATORS) translators.shift();
+      translators.push({ x: Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)), y: Math.min(1, Math.max(0, (e.clientY - r.top) / r.height)) });
+      root.classList.add('touched');
+      seed(); kick();
+    });
+
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) kick(); }).observe(canvas);
+    let lastW = 0;
+    new ResizeObserver(() => {
+      if (Math.abs(canvas.clientWidth - lastW) < 4) return;
+      lastW = canvas.clientWidth; layout();
+      if (reduce) kick(); else { settle(); draw(); report(); }
+    }).observe(canvas);
+  }
+</script>
+
+<style>
+  .controls { display: flex; gap: 8px; }
+  .controls .btn { padding: 9px 13px; font-size: .82rem; }
+  .stage { position: relative; background: radial-gradient(ellipse at 14% 46%, var(--accent-wash), transparent 55%); }
+  canvas { width: 100%; height: clamp(300px, 38vw, 440px); cursor: crosshair; touch-action: manipulation; }
+  .hint { position: absolute; right: 14px; bottom: 10px; margin: 0; pointer-events: none; transition: opacity .4s; }
+  :global(.touched) .hint { opacity: 0; }
+  .readout { display: grid; grid-template-columns: minmax(220px, 1fr) 2fr; gap: 24px; align-items: center; padding: 14px; border-top: 1px solid var(--ink); }
+  .slider { display: grid; gap: 8px; }
+  input[type='range'] { width: 100%; accent-color: var(--accent); }
+  dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 0; }
+  dl div { border-left: 1px solid var(--rule); padding-left: 14px; }
+  dt { margin-bottom: 4px; }
+  dd { margin: 0; font: 500 clamp(1.4rem, 2.6vw, 2rem)/1 var(--serif); font-variant-numeric: tabular-nums; }
+  @media (max-width: 760px) {
+    .readout { grid-template-columns: 1fr; }
+    dl div:first-child { border-left: 0; padding-left: 0; }
+    dt { font-size: .62rem; }
+  }
+</style>

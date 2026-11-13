@@ -1,0 +1,94 @@
+---
+import Base from '../layouts/Base.astro';
+
+const beliefs = [
+  { h: 'The gap is about usage, not access.', p: 'The heaviest users and the median user are mostly on the same models. What separates them is how they frame tasks, check results and build AI into their work.' },
+  { h: 'The biggest upside is in the middle.', p: 'Doubling the output of the median worker is worth more than another jump at the top, because there are far more people in the middle.' },
+  { h: 'Most of what works can be transferred.', p: 'A lot of what makes top users effective is method, not talent. Method can be taught, turned into a process, or built into a product.' },
+  { h: 'Models draft. Systems decide.', p: 'The model can write and suggest, but decisions that matter should go through rules you can inspect and test.' },
+];
+
+const principles = [
+  { h: 'Evidence first', p: 'A claim isn’t done until there’s something to check: a number, a test or a recording.' },
+  { h: 'Every angle', p: 'If an explanation only holds up from one direction, it’s probably a symptom.' },
+  { h: 'Measure the median', p: 'I judge a tool by how much it moves the typical user, not by the best demo.' },
+  { h: 'Plain language', p: 'If I can’t explain it simply, I don’t understand it well enough yet.' },
+];
+---
+<Base title="About" description="Rakeem Chapman works on bending the median of AI: closing the productivity gap between the heaviest AI users and everyone else.">
+  <section class="wrap intro">
+    <div>
+      <p class="label kicker">About</p>
+      <h1>I work on the gap between the best AI users and everyone&nbsp;else.</h1>
+      <p class="lede">I spend part of my time close to the frontier, evaluating models and producing training data, and part of it building AI systems for operating businesses. Both point to the same conclusion: the models are rarely the bottleneck. How they’re used is.</p>
+      <div class="ctas">
+        <a class="btn" href="/#contact">Get in touch</a>
+        <a class="btn line" href="/blog">Read the blog</a>
+      </div>
+    </div>
+    <figure class="photo"><img src="/images/portrait.webp" alt="Portrait of Rakeem Chapman" width="640" height="801" /></figure>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <p class="label kicker">What I believe</p>
+      <h2>Four ideas behind the work.</h2>
+      <ol class="beliefs">
+        {beliefs.map((b, i) => (<li><span class="label accent">0{i + 1}</span><div><h3>{b.h}</h3><p>{b.p}</p></div></li>))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap band-grid">
+      <figure><img src="/images/mural.webp" alt="Rakeem Chapman" width="1100" height="825" loading="lazy" /></figure>
+      <div>
+        <p class="label kicker">How I decide</p>
+        <h2>Principles I work by.</h2>
+        <ul class="principles">
+          {principles.map((p) => (<li><h3>{p.h}</h3><p>{p.p}</p></li>))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap cta">
+    <h2>Working on something similar?</h2>
+    <p class="lede">If you’re trying to get more out of AI, or helping others do it, I’d like to compare notes.</p>
+    <div class="ctas">
+      <a class="btn" href="/#contact">Get in touch →</a>
+    </div>
+  </section>
+</Base>
+<style>
+  .kicker { color: var(--accent); margin-bottom: 14px; }
+  .intro { display: grid; grid-template-columns: 1.4fr 1fr; gap: 64px; align-items: center; padding: 64px 0 88px; }
+  .intro h1 { font-size: clamp(2.4rem, 4.8vw, 4rem); margin: 0 0 26px; }
+  .ctas { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 30px; }
+  .photo { margin: 0; }
+  .photo img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border: 1px solid var(--ink); box-shadow: 12px 12px 0 var(--accent); }
+  .beliefs { list-style: none; margin: 28px 0 0; padding: 0; border-top: 1px solid var(--ink); }
+  .beliefs li { display: grid; grid-template-columns: 80px 1fr; gap: 24px; padding: 26px 0; border-bottom: 1px solid var(--rule); }
+  .beliefs .label { padding-top: .5em; }
+  .beliefs h3 { font-size: 1.55rem; margin-bottom: 8px; }
+  .beliefs p { margin: 0; color: var(--ink-2); max-width: 44em; }
+  .band { background: var(--ink); color: var(--paper); padding: 96px 0; }
+  .band-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 64px; align-items: center; }
+  .band figure { margin: 0; }
+  .band img { width: 100%; height: auto; border: 1px solid #3a3935; box-shadow: -14px 14px 0 var(--accent); }
+  .band .kicker { color: #8fa0ff; }
+  .principles { list-style: none; margin: 24px 0 0; padding: 0; }
+  .principles li { padding: 14px 0; border-top: 1px solid #3a3935; }
+  .principles h3 { margin: 0 0 4px; font-size: 1.2rem; }
+  .principles p { margin: 0; color: #c4c1b8; font-size: .95rem; }
+  .cta { padding: 96px 0 104px; text-align: center; }
+  .cta .lede { margin-inline: auto; }
+  .cta .ctas { justify-content: center; }
+  @media (max-width: 900px) {
+    .intro, .band-grid { grid-template-columns: 1fr; gap: 40px; }
+    .intro { padding-top: 36px; }
+    .photo { max-width: 360px; }
+    .band { padding: 72px 0; }
+  }
+  @media (max-width: 560px) { .beliefs li { grid-template-columns: 1fr; gap: 6px; } }
+</style>

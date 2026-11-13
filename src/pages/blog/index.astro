@@ -1,0 +1,41 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostList from '../../components/PostList.astro';
+import { getPosts } from '../../lib/posts';
+import { SERIES } from '../../site';
+const posts = await getPosts();
+---
+<Base title="Blog" description="Rakeem Chapman's blog on diffusing the benefits of AI to everyday businesses, finding root causes, and what the frontier is learning.">
+  <section class="wrap head">
+    <p class="label"><span class="accent">●</span> Blog · {posts.length} {posts.length === 1 ? 'post' : 'posts'}</p>
+    <h1>Thinking out loud.</h1>
+    <p class="lede">Essays on why AI’s gains pile up at the top, what it will take to bend the median, and how I work through hard problems. Every one starts from the evidence.</p>
+  </section>
+  <section class="wrap series">
+    {Object.values(SERIES).map((s) => (<div><p class="label">{s.label}</p><p>{s.blurb}</p></div>))}
+  </section>
+  <section class="wrap list">
+    <PostList posts={posts} />
+    <p class="label rss">Never miss an essay · <a href="/rss.xml">RSS</a> · <a href="/#contact">Get in touch</a></p>
+  </section>
+</Base>
+<style>
+  .head { padding: 72px 0 40px; }
+  .head h1 { margin: 20px 0 20px; }
+  .series { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--ink); margin-bottom: 56px; background: var(--paper); }
+  .series div { padding: 16px 18px; }
+  .series div + div { border-left: 1px solid var(--rule); }
+  .series .label { color: var(--accent); margin-bottom: 6px; }
+  .series p:last-child { margin: 0; font-size: .92rem; color: var(--ink-2); }
+  .list { padding-bottom: 72px; }
+  .rss { margin-top: 24px; }
+  @media (max-width: 860px) {
+    .series { grid-template-columns: 1fr 1fr; }
+    .series div:nth-child(3) { border-left: 0; }
+    .series div:nth-child(n + 3) { border-top: 1px solid var(--rule); }
+  }
+  @media (max-width: 520px) {
+    .series { grid-template-columns: 1fr; }
+    .series div + div { border-left: 0; border-top: 1px solid var(--rule); }
+  }
+</style>

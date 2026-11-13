@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.astro/
+.qa/*.png
+.env
+.env.local
+.vercel/
+
+.vercel

@@ -1,0 +1,119 @@
+---
+import Base from '../layouts/Base.astro';
+
+const projects = [
+  {
+    type: 'Platform · Evaluation',
+    title: 'Open World Bench',
+    period: '2026',
+    desc: 'An engineering evaluation platform I built to measure how AI agents perform on real engineering work: tasks replayed from actual production problems, deterministic scoring, and an isolated-runner design that fails closed until isolation is proven.',
+    points: [
+      'Ten-task calibration suite derived from real engineering incidents, with versioned task and environment manifests.',
+      'Deterministic scoring with seeded bootstrap confidence intervals and mergeability gates — no vibes-based leaderboards.',
+      'Held-out grading material stays unpublished by design; every score on the dashboard is labeled demo data.',
+    ],
+    stack: 'Next.js · TypeScript · zod · bootstrap statistics · isolated-runner contract',
+    img: '/images/owb.webp',
+    alt: 'Open World Bench dashboard showing a synthetic leaderboard and engineering index scores',
+    link: { href: 'https://github.com/Rakeem-C/open-world-benchmark', label: 'View the benchmark →' },
+    note: 'Public alpha. Dashboard results are synthetic; no model claims yet.',
+  },
+  {
+    type: 'Game · Strategy',
+    title: 'Aurelia: Empires of the Sun',
+    period: '2026',
+    desc: 'A Roman real-time strategy game that runs in the browser. AI opponents, resource economy, construction and tech progression across four ages, with save and load.',
+    points: [
+      'Built by directing AI coding agents with a strict verification loop: nothing counted as done until screenshots and tests proved it.',
+      'The same simulation runs identically in Chromium, Firefox and WebKit.',
+      'Pixel-level tests verify that units are actually visible, upright and animating.',
+    ],
+    stack: 'Unity · WebGL · C# · AI agents · browser test harness',
+    img: '/images/aurelia.webp',
+    alt: 'New Kingdom: Empires of the Sun start screen, with scenario settings and a Begin conquest button',
+    link: { href: 'https://new-kingdom-empires.vercel.app/', label: 'Play Now →' },
+    note: 'The public build is an earlier version of the game.',
+  },
+  {
+    type: 'App · Meetings',
+    title: 'Self-hosted video meetings',
+    period: '2026',
+    desc: 'A privacy-first, Zoom-style meetings platform built on self-hosted Jitsi, so calls and recordings stay on infrastructure you control instead of a third-party cloud.',
+    points: [
+      'Rooms, invitations and scheduling for teams and clients.',
+      'Designed so meeting data stays with the owner, not the provider.',
+    ],
+    stack: 'Jitsi · Next.js · self-hosted infrastructure',
+    img: '/images/meet.webp',
+    alt: 'Meetings app home page with invite links, passcodes and meeting controls',
+    link: { href: 'http://localhost:4310', label: 'Use →' },
+    note: 'Runs locally for now; public deployment is the next step.',
+  },
+  {
+    type: 'App · Learning',
+    title: 'Python Play',
+    period: '2026',
+    desc: 'A browser-based course I built to teach Python, pandas, SQL and data-engineering fundamentals. Forty-six missions where you write real code that runs in the browser — not videos you watch.',
+    points: [
+      '138 coding problems graded in-browser: Python runs through Pyodide, SQL through SQLite, all in a Web Worker. No installs, no accounts.',
+      'Progression from the first print() to joins, window functions, warehouse grain and idempotent backfills.',
+      'Local-first progress: streaks, drafts and notes persist in the browser. Nothing leaves the machine.',
+    ],
+    stack: 'Pyodide · SQLite WASM · Web Workers · vanilla JS · local-first',
+    img: '/images/python-play.webp',
+    alt: 'Python Play mission page with instruction panel, code editor and output console',
+    link: { href: 'https://pythonplay.vercel.app/', label: 'Try it →' },
+    note: null,
+  },
+];
+---
+<Base title="Portfolio" description="Hobby projects Rakeem Chapman has built in his spare time: games, apps and systems that test the ideas he writes about.">
+  <section class="wrap head">
+    <p class="label kicker">Portfolio</p>
+    <h1>Things I’ve built for fun.</h1>
+    <p class="lede">Hobby projects from my spare time: games, applications and systems that let me test the ideas I write about — and prove they actually work.</p>
+  </section>
+  <section class="wrap list">
+    {projects.map((p) => (
+      <article class="proj">
+        <div class="side">
+          <p class="label accent">{p.type}</p>
+          <p class="period">{p.period}</p>
+        </div>
+        <div class="main">
+          {p.img && <img class="shot" src={p.img} alt={p.alt} width="720" height="405" loading="lazy" />}
+          <h2>{p.title}</h2>
+          <p class="desc">{p.desc}</p>
+          <ul>
+            {p.points.map((pt) => <li>{pt}</li>)}
+          </ul>
+          <p class="stack label">{p.stack}</p>
+          {p.link && <a class="btn" href={p.link.href}>{p.link.label}</a>}
+          {p.note && <p class="note">{p.note}</p>}
+        </div>
+      </article>
+    ))}
+  </section>
+</Base>
+<style>
+  .kicker { color: var(--accent); margin-bottom: 14px; }
+  .head { padding: 72px 0 40px; }
+  .head h1 { margin: 0 0 20px; }
+  .list { padding-bottom: 96px; }
+  .proj { display: grid; grid-template-columns: 200px 1fr; gap: 48px; padding: 44px 0; border-top: 1px solid var(--ink); }
+  .side { padding-top: 6px; }
+  .period { font: .85rem var(--mono); color: var(--ink-3); margin: 8px 0 0; }
+  .shot { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border: 1px solid var(--ink); box-shadow: 10px 10px 0 var(--accent); margin-bottom: 26px; }
+  .main h2 { font-size: clamp(1.7rem, 3.2vw, 2.4rem); }
+  .desc { color: var(--ink-2); max-width: 40em; }
+  ul { margin: 16px 0 20px; padding-left: 1.1em; }
+  li { color: var(--ink-2); margin-bottom: .45em; }
+  li::marker { color: var(--accent); }
+  .stack { margin-bottom: 20px; }
+  .note { font: .78rem var(--mono); color: var(--ink-3); margin-top: 12px; }
+  @media (max-width: 820px) {
+    .proj { grid-template-columns: 1fr; gap: 10px; padding: 36px 0; }
+    .side { padding-top: 0; display: flex; gap: 16px; align-items: baseline; }
+    .period { margin: 0; }
+  }
+</style>

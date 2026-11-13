@@ -1,0 +1,83 @@
+---
+const sitekey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+const apiUrl = import.meta.env.PUBLIC_CONTACT_API || '/api/contact';
+---
+<form class="cform" action={apiUrl} method="post" novalidate>
+  <div class="field">
+    <label for="cf-name">Name</label>
+    <input id="cf-name" name="name" type="text" autocomplete="name" required maxlength="120" />
+  </div>
+  <div class="field">
+    <label for="cf-email">Email</label>
+    <input id="cf-email" name="email" type="email" autocomplete="email" required maxlength="200" />
+  </div>
+  <div class="field">
+    <label for="cf-msg">Message</label>
+    <textarea id="cf-msg" name="message" rows="5" required maxlength="5000" minlength="5"></textarea>
+  </div>
+  <div class="hp" aria-hidden="true">
+    <label>Website <input name="website" type="text" tabindex="-1" autocomplete="off" /></label>
+  </div>
+  {sitekey && <div class="cf-turnstile" data-sitekey={sitekey} data-size="flexible" data-theme="light"></div>}
+  <button class="btn" type="submit">Send message →</button>
+  <p class="status" role="status" aria-live="polite"></p>
+</form>
+{sitekey && <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer is:inline></script>}
+
+<style>
+  .cform { background: var(--paper); color: var(--ink); border: 1px solid var(--ink); padding: 28px; display: grid; gap: 16px; box-shadow: 8px 8px 0 rgba(0, 0, 0, .28); }
+  .field { display: grid; gap: 6px; }
+  label { font: 500 .68rem var(--mono); text-transform: uppercase; letter-spacing: .14em; color: var(--ink-2); }
+  input, textarea { font: 400 1rem/1.4 var(--sans); color: var(--ink); background: #fff; border: 1px solid var(--rule); padding: 10px 12px; border-radius: 0; width: 100%; box-sizing: border-box; }
+  input:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+  textarea { resize: vertical; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .btn { justify-self: start; font: 600 .8rem var(--mono); text-transform: uppercase; letter-spacing: .12em; background: var(--ink); color: #fff; border: 1px solid var(--ink); padding: 12px 22px; cursor: pointer; }
+  .btn:hover { background: var(--accent); border-color: var(--accent); }
+  .btn[disabled] { opacity: .55; cursor: default; }
+  .status { margin: 0; font: 400 .85rem/1.5 var(--sans); color: var(--ink-2); min-height: 1.3em; }
+  .status.err { color: #a33; }
+  .status.ok { color: var(--ink); }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('.cform');
+  const status = form?.querySelector<HTMLElement>('.status');
+  const btn = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+  if (new URLSearchParams(location.search).get('sent') === '1' && status) {
+    status.textContent = 'Message sent. I’ll get back to you.';
+    status.classList.add('ok');
+  }
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+    btn!.disabled = true;
+    status!.textContent = 'Sending…';
+    status!.className = 'status';
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        headers: { accept: 'application/json' },
+        body: new FormData(form),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.ok) {
+        form.reset();
+        status!.textContent = 'Message sent. I’ll get back to you.';
+        status!.classList.add('ok');
+      } else {
+        status!.textContent = data.error ?? 'Something went wrong. Try again.';
+        status!.classList.add('err');
+      }
+    } catch {
+      status!.textContent = 'Couldn’t reach the server. Try again.';
+      status!.classList.add('err');
+    } finally {
+      btn!.disabled = false;
+      // Turnstile tokens are single-use; fetch a fresh one for the next attempt.
+      (window as unknown as { turnstile?: { reset: () => void } }).turnstile?.reset();
+    }
+  });
+</script>

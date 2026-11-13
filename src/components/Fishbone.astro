@@ -1,0 +1,67 @@
+---
+const bones = [
+  { name: 'Data', q: ['What do the numbers', 'actually say?'], x: 250, up: true },
+  { name: 'Incentives', q: ['Who benefits if it', 'stays broken?'], x: 470, up: true },
+  { name: 'Workflow', q: ['Where does the work', 'really happen?'], x: 690, up: true },
+  { name: 'Tools', q: ['Is it the tool, or', 'how it’s used?'], x: 250, up: false },
+  { name: 'People', q: ['What do they know?', 'What do they fear?'], x: 470, up: false },
+  { name: 'Physics', q: ['What can’t change,', 'no matter what?'], x: 690, up: false },
+];
+const Y = 210;
+---
+<figure class="fig fishbone">
+  <div class="fig-bar"><p class="label">How I find a root cause · six angles, one answer</p></div>
+  <svg viewBox="0 0 1000 420" role="img" aria-labelledby="fb-t fb-d">
+    <title id="fb-t">A fishbone diagram of how I look for root causes</title>
+    <desc id="fb-d">Six angles (data, incentives, workflow, tools, people and physics) all converge on a single root cause.</desc>
+    <line x1="40" y1={Y} x2="808" y2={Y} class="spine" />
+    <path d={`M 796 ${Y - 9} L 812 ${Y} L 796 ${Y + 9}`} class="spine" fill="none" />
+    {bones.map((b) => {
+      const ex = b.x - 130, ey = b.up ? 92 : 328;
+      const ty = b.up ? ey - 56 : ey + 26;
+      return (
+        <g class="bone" tabindex="0">
+          <line x1={b.x} y1={Y} x2={ex} y2={ey} />
+          <circle cx={b.x} cy={Y} r="4" />
+          <text x={ex - 20} y={ty} class="bn">{b.name}</text>
+          <text x={ex - 20} y={ty + 19} class="bq"><tspan x={ex - 20}>{b.q[0]}</tspan><tspan x={ex - 20} dy="16">{b.q[1]}</tspan></text>
+          {[0.35, 0.65].map((f) => {
+            const px = b.x + (ex - b.x) * f, py = Y + (ey - Y) * f;
+            return <line x1={px} y1={py} x2={px - 46} y2={py} class="rib" />;
+          })}
+        </g>
+      );
+    })}
+    <rect x="822" y={Y - 52} width="160" height="104" class="head" />
+    <text x="902" y={Y - 6} class="hn" text-anchor="middle">Root cause</text>
+    <text x="902" y={Y + 20} class="hq" text-anchor="middle">NOT THE SYMPTOM</text>
+  </svg>
+  <ol class="fb-list">
+    {bones.map((b) => <li><strong>{b.name}</strong> <span>{b.q.join(' ')}</span></li>)}
+    <li class="end"><strong>→ Root cause</strong> <span>what’s still standing when every angle agrees</span></li>
+  </ol>
+  <figcaption class="fig-cap">If an explanation only holds up from one direction, it’s probably a symptom. I don’t call something the cause until every angle agrees.</figcaption>
+</figure>
+<style>
+  svg { width: 100%; height: auto; padding: 12px 8px; }
+  .spine { stroke: var(--ink); stroke-width: 2.5; }
+  .bone line { stroke: var(--ink); stroke-width: 1.5; transition: stroke .2s; }
+  .bone .rib { stroke: var(--ink-3); stroke-width: 1; }
+  .bone circle { fill: var(--paper); stroke: var(--ink); stroke-width: 1.5; transition: fill .2s; }
+  .bn { font: 500 26px var(--serif); fill: var(--ink); }
+  .bq { font: 400 12.5px var(--mono); fill: var(--ink-2); }
+  .bone { outline: none; cursor: default; }
+  .bone:hover line:not(.rib), .bone:focus-visible line:not(.rib) { stroke: var(--accent); stroke-width: 2.5; }
+  .bone:hover circle, .bone:focus-visible circle { fill: var(--accent); stroke: var(--accent); }
+  .bone:hover .bn, .bone:focus-visible .bn { fill: var(--accent); }
+  .head { fill: var(--accent); }
+  .hn { font: 500 25px var(--serif); fill: #fff; }
+  .hq { font: 500 10.5px var(--mono); letter-spacing: .12em; fill: rgba(255, 255, 255, .8); }
+  .fb-list { display: none; list-style: none; margin: 0; padding: 6px 14px 14px; }
+  .fb-list li { padding: 10px 0; border-bottom: 1px solid var(--rule); display: grid; gap: 2px; }
+  .fb-list strong { font: 500 1.2rem var(--serif); }
+  .fb-list span { font: .8rem var(--mono); color: var(--ink-2); }
+  .fb-list .end strong { color: var(--accent); }
+  .fb-list .end { border-bottom: 0; }
+  @media (max-width: 700px) { svg { display: none; } .fb-list { display: block; } }
+</style>

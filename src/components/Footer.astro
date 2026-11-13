@@ -1,0 +1,44 @@
+---
+import Mark from './Mark.astro';
+import { SITE } from '../site';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="wrap cols">
+    <div class="sign">
+      <Mark size={40} />
+      <div>
+        <p class="big">{SITE.tagline}</p>
+        <p class="sub">Rakeem Chapman writes about AI productivity, how its gains are distributed, and how it benefits everyday people.</p>
+      </div>
+    </div>
+    <div>
+      <p class="label">Explore</p>
+      <ul>
+        <li><a href="/about">About me</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/rss.xml">RSS feed</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="label">Find me</p>
+      <ul>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap base">
+    <span>© {year} {SITE.name}</span>
+    <span>No trackers.</span>
+  </div>
+</footer>
+<style>
+  .site-footer { border-top: 1px solid var(--ink); background: var(--paper-2); padding: 56px 0 28px; }
+  .cols { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; }
+  .sign { display: flex; gap: 16px; align-items: flex-start; }
+  .big { font: 480 clamp(1.8rem, 3vw, 2.4rem)/1.05 var(--serif); letter-spacing: -0.02em; margin: 0 0 8px; }
+  .sub { color: var(--ink-2); max-width: 26em; margin: 0; }
+  ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+  .base { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--rule); font: .72rem var(--mono); color: var(--ink-3); }
+  @media (max-width: 760px) { .cols { grid-template-columns: 1fr 1fr; } .sign { grid-column: 1 / -1; } }
+</style>

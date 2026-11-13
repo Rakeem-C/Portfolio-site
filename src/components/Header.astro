@@ -1,0 +1,38 @@
+---
+import Mark from './Mark.astro';
+import { NAV, SITE } from '../site';
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="/" aria-label={`${SITE.name}, home`}>
+      <Mark />
+      <span>Rakeem Chapman</span>
+    </a>
+    <nav aria-label="Primary">
+      <ul>
+        {NAV.map((n) => (
+          <li><a href={n.href} aria-current={!n.href.includes('#') && path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <a class="hello" href="/#contact">Let’s talk</a>
+  </div>
+</header>
+<style>
+  .site-header { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--paper) 90%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
+  .bar { display: flex; align-items: center; gap: 24px; min-height: 64px; }
+  .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font: 600 1rem/1 var(--sans); letter-spacing: -0.01em; margin-right: auto; }
+  ul { display: flex; gap: 2px; list-style: none; margin: 0; padding: 0; }
+  nav a { display: block; padding: 8px 10px; font: 500 .78rem/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; text-decoration: none; color: var(--ink-2); }
+  nav a:hover, nav a[aria-current='page'] { color: var(--ink); }
+  nav a[aria-current='page'] { box-shadow: inset 0 -2px 0 var(--accent); }
+  .hello { font: 600 .85rem/1 var(--sans); text-decoration: none; padding: 10px 14px; border: 1.5px solid var(--ink); }
+  .hello:hover { background: var(--ink); color: var(--paper); }
+  @media (max-width: 720px) {
+    .bar { flex-wrap: wrap; gap: 8px 16px; padding: 10px 0 0; }
+    nav { order: 3; flex-basis: 100%; margin-inline: -10px; }
+    nav a { padding: 10px; font-size: .72rem; }
+    .hello { padding: 8px 12px; font-size: .8rem; }
+  }
+</style>
