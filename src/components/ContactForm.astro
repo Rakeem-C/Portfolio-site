@@ -18,12 +18,11 @@ const apiUrl = import.meta.env.PUBLIC_CONTACT_API || '/api/contact';
   <div class="hp" aria-hidden="true">
     <label>Website <input name="website" type="text" tabindex="-1" autocomplete="off" /></label>
   </div>
-  {sitekey && <div class="cf-turnstile" data-sitekey={sitekey} data-size="flexible" data-theme="light"></div>}
-  <button class="btn" type="submit">Send message →</button>
+  {sitekey && <div class="cf-turnstile" data-sitekey={sitekey} data-action="contact" data-size="flexible" data-theme="light"></div>}
+  <button class="btn" type="submit" disabled>Send message →</button>
   <p class="status" role="status" aria-live="polite"></p>
   <noscript>
-    <p class="status err">Sending a message requires JavaScript — it proves you're human and protects against spam.</p>
-    <style>.cform .btn{display:none}</style>
+    <p class="status err">Enable JavaScript to send a message through this form.</p>
   </noscript>
 </form>
 {sitekey && <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer is:inline></script>}
@@ -49,11 +48,6 @@ const apiUrl = import.meta.env.PUBLIC_CONTACT_API || '/api/contact';
   const status = form?.querySelector<HTMLElement>('.status');
   const btn = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
 
-  if (new URLSearchParams(location.search).get('sent') === '1' && status) {
-    status.textContent = 'Message sent. I’ll get back to you.';
-    status.classList.add('ok');
-  }
-
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!form.reportValidity()) return;
@@ -74,7 +68,9 @@ const apiUrl = import.meta.env.PUBLIC_CONTACT_API || '/api/contact';
         status!.textContent = 'Message sent. I’ll get back to you.';
         status!.classList.add('ok');
       } else {
-        status!.textContent = data.error ?? 'Something went wrong. Try again.';
+        status!.textContent = res.status === 429
+          ? 'Too many attempts. Try again in a few minutes.'
+          : data.error ?? 'Something went wrong. Try again.';
         status!.classList.add('err');
       }
     } catch {
@@ -86,4 +82,5 @@ const apiUrl = import.meta.env.PUBLIC_CONTACT_API || '/api/contact';
       (window as unknown as { turnstile?: { reset: () => void } }).turnstile?.reset();
     }
   });
+  if (btn) btn.disabled = false;
 </script>

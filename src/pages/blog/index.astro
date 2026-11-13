@@ -9,14 +9,14 @@ const posts = await getPosts();
   <section class="wrap head">
     <p class="label"><span class="accent">●</span> Blog · {posts.length} {posts.length === 1 ? 'post' : 'posts'}</p>
     <h1>Thinking out loud.</h1>
-    <p class="lede">Essays on why AI’s gains pile up at the top, what it will take to bend the median, and how I work through hard problems. Every one starts from the evidence.</p>
+    <p class="lede">Essays on how more people can benefit from AI and how I work through hard problems.</p>
   </section>
   <section class="wrap series">
     {Object.values(SERIES).map((s) => (<div><p class="label">{s.label}</p><p>{s.blurb}</p></div>))}
   </section>
   <section class="wrap list">
     <PostList posts={posts} />
-    <p class="label rss">Never miss an essay · <a href="/rss.xml">RSS</a> · <a href="/#contact">Get in touch</a></p>
+    <p class="label rss"><a href="/rss.xml">Subscribe via RSS</a> · <a href="/#contact">Get in touch</a></p>
   </section>
 </Base>
 <style>

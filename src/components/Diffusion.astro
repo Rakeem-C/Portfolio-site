@@ -16,19 +16,31 @@
   </div>
   <div class="stage">
     <canvas data-canvas role="img" aria-label="A field of dots representing people. A small cluster near the frontier has high AI productivity while most dots stay low. Bending the median spreads the gains outward."></canvas>
-    <p class="hint label">Tap anywhere to add a guide</p>
+    <p class="hint label">Select a point on the model or use the controls below</p>
   </div>
   <div class="readout">
     <label class="slider">
       <span class="label">How far know-how travels</span>
       <input type="range" min="0" max="100" value="10" data-transfer />
     </label>
-    <dl aria-live="polite">
+    <dl>
       <div><dt class="label">Median multiple</dt><dd data-median>1.0×</dd></div>
       <div><dt class="label">Share of gains, top 1%</dt><dd data-top>0%</dd></div>
       <div><dt class="label">Users at 2× or more</dt><dd data-reach>0%</dd></div>
     </dl>
   </div>
+  <div class="guide-controls">
+    <label for="guide-position">Guide position</label>
+    <select id="guide-position" data-guide-position>
+      <option value="0.50,0.46">Center</option>
+      <option value="0.76,0.25">Upper right</option>
+      <option value="0.76,0.72">Lower right</option>
+      <option value="0.30,0.72">Lower left</option>
+      <option value="0.30,0.25">Upper left</option>
+    </select>
+    <button class="btn line" type="button" data-add-guide>Add guide</button>
+  </div>
+  <p class="sr-only" role="status" data-summary></p>
   <figcaption class="fig-cap">Illustrative model, not measured data. Each dot is a person. The brighter the dot, the bigger their productivity multiple (up to 100×). Know-how spreads outward from the frontier and fades with distance. Each guide you add, a person or a product, becomes a new source of working know-how.</figcaption>
 </figure>
 
@@ -41,6 +53,8 @@
     const slider = q<HTMLInputElement>('[data-transfer]');
     const diffuseBtn = q<HTMLButtonElement>('[data-diffuse]');
     const resetBtn = q<HTMLButtonElement>('[data-reset]');
+    const guidePosition = q<HTMLSelectElement>('[data-guide-position]');
+    const summary = q<HTMLElement>('[data-summary]');
     const out = { median: q<HTMLElement>('[data-median]'), top: q<HTMLElement>('[data-top]'), reach: q<HTMLElement>('[data-reach]') };
     const css = getComputedStyle(document.documentElement);
     const ACCENT = css.getPropertyValue('--accent').trim() || '#2340ff';
@@ -56,6 +70,7 @@
     let jx = new Float32Array(0), jy = new Float32Array(0);
     let translators: { x: number; y: number }[] = [];
     let t = Number(slider.value), tTarget = t, running = false, visible = true, frame = 0;
+    let announceResult = false;
 
     const reachFrac = () => 0.0268 * Math.pow(14.4, t / 100);
     const decay = () => (K / 4) / (reachFrac() * cols) ** 2;
@@ -157,6 +172,14 @@
       out.reach.textContent = `${Math.round(reach * 100)}%`;
     }
 
+    function reportResult() {
+      report();
+      if (!announceResult) return;
+      const guides = translators.length === 1 ? '1 guide' : `${translators.length} guides`;
+      summary.textContent = `${guides}. Median: ${out.median.textContent}. Top 1% share: ${out.top.textContent}. Users at 2× or more: ${out.reach.textContent}.`;
+      announceResult = false;
+    }
+
     function settle() { for (let i = 0; i < 6000 && step() > 1e-5; i++); }
 
     function loop() {
@@ -168,11 +191,11 @@
       draw();
       if (frame++ % 4 === 0) report();
       if (delta > 2e-5 || t !== tTarget) requestAnimationFrame(loop);
-      else { report(); running = false; }
+      else { reportResult(); running = false; }
     }
 
     function kick() {
-      if (reduce) { t = tTarget; slider.value = String(t); settle(); draw(); report(); return; }
+      if (reduce) { t = tTarget; slider.value = String(t); settle(); draw(); reportResult(); return; }
       if (!running) { running = true; requestAnimationFrame(loop); }
     }
 
@@ -183,18 +206,27 @@
 
     diffuseBtn.addEventListener('click', () => {
       const on = diffuseBtn.getAttribute('aria-pressed') !== 'true';
-      tTarget = on ? HIGH : LOW; setPressed(on); kick();
+      tTarget = on ? HIGH : LOW; setPressed(on); announceResult = true; kick();
     });
     resetBtn.addEventListener('click', () => {
-      translators = []; tTarget = LOW; setPressed(false); L.fill(0); seed(); kick();
+      translators = []; tTarget = LOW; setPressed(false); L.fill(0); seed(); announceResult = true; kick();
     });
     slider.addEventListener('input', () => { t = tTarget = Number(slider.value); setPressed(t > (LOW + HIGH) / 2); kick(); });
+    slider.addEventListener('change', () => { announceResult = true; kick(); });
+
+    function addGuide(x: number, y: number) {
+      if (translators.length >= MAX_TRANSLATORS) translators.shift();
+      translators.push({ x: Math.min(1, Math.max(0, x)), y: Math.min(1, Math.max(0, y)) });
+      root.classList.add('touched');
+      seed(); announceResult = true; kick();
+    }
     canvas.addEventListener('pointerdown', (e) => {
       const r = canvas.getBoundingClientRect();
-      if (translators.length >= MAX_TRANSLATORS) translators.shift();
-      translators.push({ x: Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)), y: Math.min(1, Math.max(0, (e.clientY - r.top) / r.height)) });
-      root.classList.add('touched');
-      seed(); kick();
+      addGuide((e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height);
+    });
+    q<HTMLButtonElement>('[data-add-guide]').addEventListener('click', () => {
+      const [x, y] = guidePosition.value.split(',').map(Number);
+      addGuide(x, y);
     });
 
     new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) kick(); }).observe(canvas);
@@ -215,6 +247,10 @@
   .hint { position: absolute; right: 14px; bottom: 10px; margin: 0; pointer-events: none; transition: opacity .4s; }
   :global(.touched) .hint { opacity: 0; }
   .readout { display: grid; grid-template-columns: minmax(220px, 1fr) 2fr; gap: 24px; align-items: center; padding: 14px; border-top: 1px solid var(--ink); }
+  .guide-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 0 14px 14px; font-size: .9rem; }
+  select { font: inherit; color: var(--ink); background: var(--paper); padding: 7px; border: 1px solid var(--ink); }
+  .guide-controls .btn { padding: 9px 13px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .slider { display: grid; gap: 8px; }
   input[type='range'] { width: 100%; accent-color: var(--accent); }
   dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 0; }

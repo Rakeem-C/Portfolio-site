@@ -3,7 +3,7 @@ export const SITE = {
   url: 'https://rakeemchapman.com',
   title: 'Rakeem Chapman · Bend the median',
   description:
-    'Rakeem Chapman on bending the median of AI: why the heaviest users get 50× more out of the same models than the typical user, and how to close the gap.',
+    'Rakeem Chapman works on AI productivity and how its gains can benefit everyday people.',
   tagline: 'Bend the median.',
 };
 
@@ -16,7 +16,7 @@ export const NAV = [
 ];
 
 export const SERIES = {
-  thesis: { label: 'Bend the Median', blurb: 'Why AI’s productivity gains concentrate at the top, and what moves the middle.' },
+  thesis: { label: 'Bend the Median', blurb: 'How AI productivity gains can spread to more people and businesses.' },
   'root-cause': { label: 'Root Cause', blurb: 'One problem per essay, examined from every angle.' },
   frontier: { label: 'From the Frontier', blurb: 'What evaluating models shows about where they work and where they fail.' },
   field: { label: 'From the Field', blurb: 'What happens when AI is put to work inside an operating business.' },

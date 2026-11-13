@@ -8,9 +8,9 @@ import ContactForm from '../components/ContactForm.astro';
 const posts = (await getPosts()).slice(0, 3);
 
 const gap = [
-  { v: '50×', k: 'Top 1% of AI users', p: 'More output from the same models, through better workflows.' },
-  { v: '1.5×', k: 'The median user', p: 'Occasional use, mostly as a better search engine. Still thinks prompt engineering is cutting edge.' },
-  { v: 'Same tools', k: 'What’s different', p: 'Not access. How the tools are used.' },
+  { v: '50×', k: 'Power user', p: 'Example output with AI, relative to that person’s baseline.' },
+  { v: '1.5×', k: 'Typical user in this example', p: 'Example output with AI, relative to that person’s baseline.' },
+  { v: 'Same tools', k: 'What the example tests', p: 'How different workflows could affect the gains people see.' },
 ];
 
 const drivers = [
@@ -47,7 +47,7 @@ const people = [
       <p class="hi">Hi, I’m</p>
       <h1 class="name">Rakeem Chapman.</h1>
       <p class="tagline">I work on <em>diffusing the benefits of AI</em> to everyday&nbsp;businesses.</p>
-      <p class="intro">AI’s productivity gains aren’t spread evenly. While the most advanced users get 50 times more done, the typical user gets only a small fraction of that. They’re using the same models. The difference is how they use them, and that difference can be learned and built. I’m working on closing the gap, and I build things that test it.</p>
+      <p class="intro">Two people can use the same AI model and get very different results. I build and test ways for more people and businesses to get useful results from the tools they have.</p>
       <div class="ctas">
         <a class="btn" href="#idea">The idea</a>
         <a class="btn line" href="/blog">Read the blog</a>
@@ -63,7 +63,7 @@ const people = [
     <dl class="wrap">
       {gap.map((g) => (<div><dt class="label">{g.k}</dt><dd><span class="v">{g.v}</span><span class="p">{g.p}</span></dd></div>))}
     </dl>
-    <p class="wrap gap-note label">Illustrative figures for the shape of the distribution, not a measured study.</p>
+    <p class="wrap gap-note label">Hypothetical example. Both multipliers are relative to each person’s output without AI.</p>
   </section>
 
   <!-- The idea -->
@@ -75,8 +75,8 @@ const people = [
           <h2>Same models. Very different&nbsp;results.</h2>
         </div>
         <div class="split-body">
-          <p>A small group of users, mostly people at or near the AI labs and in technical roles, get an order of magnitude more out of AI than everyone else. Further down the distribution, the gains drop off fast.</p>
-          <p>Access isn’t the bottleneck. Anyone can sign up for the same tools. The gap comes from four things, and each one can be taught or built into a product.</p>
+          <p>I’m interested in what happens after people get access to AI. Even with the same model, the task, the workflow and the checks around the output can change what people get from it.</p>
+          <p>These are four areas I work on because each can be taught or built into a tool.</p>
         </div>
       </div>
       <ol class="drivers">
@@ -94,19 +94,19 @@ const people = [
       </figure>
       <div class="story-copy">
         <p class="label kicker">Bend the median</p>
-        <h2>Small gains on a large base beat large gains on a small&nbsp;base.</h2>
+        <h2>Small gains can add up across a large&nbsp;group.</h2>
         <ol class="reasons">
           <li>
             <span class="n">01</span>
-            <div><h3>The middle is most of the economy.</h3><p>Small businesses employ 45.9% of U.S. private-sector workers and produce 43.5% of GDP.<sup><a href="#src-sba">1</a></sup> That’s where the middle of the AI curve is.</p></div>
+            <div><h3>Small businesses have a large footprint.</h3><p>Small businesses employ 45.9% of U.S. private-sector workers and produce 43.5% of GDP.<sup><a href="#src-sba">1</a></sup></p></div>
           </li>
           <li>
             <span class="n">02</span>
-            <div><h3>The math favors breadth.</h3><p>In a 100-person company, pushing one power user from 50× to 60× adds about 10 people’s worth of output. Moving the other 99 from 1.5× to 3× adds about 149.</p></div>
+            <div><h3>The math favors breadth.</h3><p>Imagine 100 people doing comparable work, each starting with the same output before AI. Moving one person from 50× to 60× adds 10 units of baseline output. Moving the other 99 from 1.5× to 3× adds about 149.</p></div>
           </li>
           <li>
             <span class="n">03</span>
-            <div><h3>It’s underserved.</h3><p>Most AI products are built for people who already use AI well. Very few are built for a business that still runs on phone calls, paper and spreadsheets.</p></div>
+            <div><h3>Start with the work people already do.</h3><p>For a business that runs on phone calls and spreadsheets, a useful AI tool has to fit how the team takes calls, keeps records and follows up.</p></div>
           </li>
         </ol>
         <p class="close">That’s the opportunity: take what already works at the top and build it into the way everyday businesses operate.</p>

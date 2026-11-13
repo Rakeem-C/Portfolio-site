@@ -15,7 +15,7 @@ const projects = [
     stack: 'Next.js · TypeScript · zod · bootstrap statistics · isolated-runner contract',
     img: '/images/owb.webp',
     alt: 'Open World Bench dashboard showing a synthetic leaderboard and engineering index scores',
-    link: { href: 'https://github.com/Rakeem-C/open-world-benchmark', label: 'View the benchmark →' },
+    link: null,
     note: 'Public alpha. Dashboard results are synthetic; no model claims yet.',
   },
   {
@@ -25,7 +25,7 @@ const projects = [
     desc: 'A Roman real-time strategy game that runs in the browser. AI opponents, resource economy, construction and tech progression across four ages, with save and load.',
     points: [
       'Built by directing AI coding agents with a strict verification loop: nothing counted as done until screenshots and tests proved it.',
-      'The same simulation runs identically in Chromium, Firefox and WebKit.',
+      'I used browser tests to check gameplay across Chromium, Firefox and WebKit.',
       'Pixel-level tests verify that units are actually visible, upright and animating.',
     ],
     stack: 'Unity · WebGL · C# · AI agents · browser test harness',
@@ -41,7 +41,7 @@ const projects = [
     desc: 'A self-hosted meeting application built around Jitsi, with invitation links, optional passcodes, and host-private notes.',
     points: [
       'Rooms, invitations and scheduling for teams and clients.',
-      'Designed so meeting data stays with the owner, not the provider.',
+      'Meeting privacy depends on the configured hosting and media services.',
     ],
     stack: 'Jitsi · Node.js · self-hosted infrastructure',
     img: '/images/open-meet.jpg',
@@ -53,11 +53,11 @@ const projects = [
     type: 'App · Learning',
     title: 'Python Play',
     period: '2026',
-    desc: 'A browser-based course I built to teach Python, pandas, SQL and data-engineering fundamentals. Forty-six missions where you write real code that runs in the browser — not videos you watch.',
+    desc: 'A course I built to teach Python, pandas, SQL and data engineering through exercises that run in the browser.',
     points: [
-      '138 coding problems graded in-browser: Python runs through Pyodide, SQL through SQLite, all in a Web Worker. No installs, no accounts.',
+      'Exercises run and are graded in the browser using Pyodide for Python and SQLite for SQL.',
       'Progression from the first print() to joins, window functions, warehouse grain and idempotent backfills.',
-      'Local-first progress: streaks, drafts and notes persist in the browser. Nothing leaves the machine.',
+      'The browser stores streaks, drafts and notes locally.',
     ],
     stack: 'Pyodide · SQLite WASM · Web Workers · vanilla JS · local-first',
     img: '/images/python-play.webp',
@@ -67,11 +67,11 @@ const projects = [
   },
 ];
 ---
-<Base title="Portfolio" description="Hobby projects Rakeem Chapman has built in his spare time: games, apps and systems that test the ideas he writes about.">
+<Base title="Portfolio" description="Hobby projects Rakeem Chapman has built in his spare time: games, apps and systems that test the ideas he works on.">
   <section class="wrap head">
     <p class="label kicker">Portfolio</p>
     <h1>Things I’ve built for fun.</h1>
-    <p class="lede">Hobby projects from my spare time: games, applications and systems that let me test the ideas I write about — and prove they actually work.</p>
+    <p class="lede">Hobby projects from my spare time: games, applications and systems that let me test the ideas I work on.</p>
   </section>
   <section class="wrap list">
     {projects.map((p) => (
