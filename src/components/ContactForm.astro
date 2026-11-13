@@ -59,8 +59,10 @@ const apiUrl = import.meta.env.PUBLIC_CONTACT_API || '/api/contact';
     try {
       const res = await fetch(form.action, {
         method: 'POST',
-        headers: { accept: 'application/json' },
-        body: new FormData(form),
+        // JSON, not FormData: Vercel's edge rejects cross-site form posts
+        // before they reach the function.
+        headers: { accept: 'application/json', 'content-type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
       });
       const data = await res.json().catch(() => ({}));
       if (res.ok && data.ok) {
