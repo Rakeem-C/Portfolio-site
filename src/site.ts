@@ -3,7 +3,7 @@ export const SITE = {
   url: 'https://rakeemchapman.com',
   title: 'Rakeem Chapman · Bend the median',
   description:
-    'Rakeem Chapman works on AI productivity and how its gains can benefit everyday people.',
+    'Rakeem Chapman evaluates frontier AI models and builds AI systems for operating businesses — working to bend the median of what people and teams get from AI.',
   tagline: 'Bend the median.',
 };
 
@@ -16,10 +16,10 @@ export const NAV = [
 ];
 
 export const SERIES = {
-  thesis: { label: 'Bend the Median', blurb: 'How AI productivity gains can spread to more people and businesses.' },
-  'root-cause': { label: 'Root Cause', blurb: 'One problem per essay, examined from every angle.' },
-  frontier: { label: 'From the Frontier', blurb: 'What evaluating models shows about where they work and where they fail.' },
-  field: { label: 'From the Field', blurb: 'What happens when AI is put to work inside an operating business.' },
+  thesis: { label: 'Bend the Median', blurb: 'How AI productivity gains spread from power users to everyday teams and businesses.' },
+  'root-cause': { label: 'Root Cause', blurb: 'One problem per essay, tested from every angle before proposing a fix.' },
+  frontier: { label: 'From the Frontier', blurb: 'What evaluating frontier models and agents reveals about where they hold up and where they break.' },
+  field: { label: 'From the Field', blurb: 'What happens when AI meets real phone lines, leads, schedules and back-office operations.' },
 } as const;
 
 export type SeriesKey = keyof typeof SERIES;
