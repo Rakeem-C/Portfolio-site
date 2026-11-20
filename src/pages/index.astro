@@ -10,14 +10,14 @@ const posts = (await getPosts()).slice(0, 3);
 const gap = [
   { v: '50×', k: 'Power user', p: 'Example output with AI, relative to that person’s baseline.' },
   { v: '1.5×', k: 'Typical user in this example', p: 'Example output with AI, relative to that person’s baseline.' },
-  { v: 'Same tools', k: 'What the example tests', p: 'How different workflows could affect the gains people see.' },
+  { v: 'Same models', k: 'What explains the gap', p: 'How task scoping, verification, and workflow integration change the result.' },
 ];
 
 const drivers = [
-  { h: 'Knowing what’s possible', p: 'You can’t ask a model to do something you don’t know it can do.' },
-  { h: 'Structuring the work', p: 'Models do well on clear, well-defined tasks. Most real work has to be broken down first.' },
-  { h: 'Checking the output', p: 'If you can’t tell a good answer from a confident wrong one, you can’t rely on it.' },
-  { h: 'Fitting the workflow', p: 'A tool in a separate tab gets used once in a while. A tool built into the process gets used every day.' },
+  { h: 'Knowing where models hold up', p: 'Knowing which steps a model handles reliably today and where deterministic code should take over.' },
+  { h: 'Scoping the work', p: 'Models do well on clear, bounded tasks. Messy operational work has to be broken down before a model touches it.' },
+  { h: 'Checking the output', p: 'A fluent answer isn’t a verified outcome. Reliable systems pair model output with explicit checks, tests, or human review.' },
+  { h: 'Fitting the workflow', p: 'A tool in a separate tab gets used once in a while. Software wired into phones, messages, and records gets used every day.' },
 ];
 
 const method = [
@@ -28,16 +28,16 @@ const method = [
 ];
 
 const work = [
-  { q: 'Evaluating models', a: 'Measuring how frontier models perform on expert-level tasks, and writing down exactly where and why they fail.' },
-  { q: 'Robotics data', a: 'Evaluating raw robotics data and turning it into structured data that training runs can use to make robots better at real-world tasks.' },
-  { q: 'AI in operating businesses', a: 'Building AI systems for service businesses, starting with lead response and follow-up, where slow processes cost the most.' },
-  { q: 'The blog', a: 'Turning what I learn into posts that are useful to people who don’t work near the frontier.' },
+  { q: 'Evaluating models and agents', a: 'Building benchmarks and grading frontier models and coding agents on multi-step engineering and operational tasks, using isolated runners, deterministic checks, and clear failure analysis.' },
+  { q: 'Robotics data', a: 'Evaluating raw robotics captures and turning messy real-world trajectories into structured training data and failure categories that physical AI teams can train against.' },
+  { q: 'AI in operating businesses', a: 'Building speed-to-lead, booking, and back-office software for service businesses: answering across voice, SMS, and email in seconds, qualifying jobs, following up on time, and handing operators full context.' },
+  { q: 'Open tools and essays', a: 'Publishing evaluation harnesses, local-first software, and plain-language posts that turn lessons from frontier testing into practices everyday teams can use.' },
 ];
 
 const people = [
-  { h: 'Heavy AI users', p: 'You’ve seen what the tools can do and want to compare notes on what actually works.' },
-  { h: 'Operators', p: 'You run a business or a team and want to know where AI would make a measurable difference.' },
-  { h: 'Builders', p: 'You’re building products that help more people get more out of AI.' },
+  { h: 'Operators', p: 'You run a service business or operations team and want faster lead response, cleaner follow-up, or back-office workflows that hold up.' },
+  { h: 'Evaluators and researchers', p: 'You test frontier models, coding agents, or robotics data and care about contamination-free benchmarks and real failure modes.' },
+  { h: 'Builders', p: 'You ship software that puts AI inside daily workflows, where models draft and deterministic rules decide.' },
 ];
 ---
 <Base>
@@ -47,7 +47,7 @@ const people = [
       <p class="hi">Hi, I’m</p>
       <h1 class="name">Rakeem Chapman.</h1>
       <p class="tagline">I work on <em>diffusing the benefits of AI</em> to everyday&nbsp;businesses.</p>
-      <p class="intro">Two people can use the same AI model and get very different results. I build and test ways for more people and businesses to get useful results from the tools they have.</p>
+      <p class="intro">Two people can use the same AI model and get very different results. I evaluate frontier models and agents to see where they hold up, and build AI software that fits how operating businesses handle leads, calls, follow-up, and day-to-day&nbsp;work.</p>
       <div class="ctas">
         <a class="btn" href="#idea">The idea</a>
         <a class="btn line" href="/blog">Read the blog</a>
@@ -75,8 +75,8 @@ const people = [
           <h2>Same models. Very different&nbsp;results.</h2>
         </div>
         <div class="split-body">
-          <p>I’m interested in what happens after people get access to AI. Even with the same model, the task, the workflow and the checks around the output can change what people get from it.</p>
-          <p>These are four areas I work on because each can be taught or built into a tool.</p>
+          <p>Access to frontier models isn’t the bottleneck anymore. Even with the same model, how work is scoped, wired into software, and checked before anyone acts on it changes what a team gets back.</p>
+          <p>These are four areas I focus on because each can be measured, taught, or built directly into software.</p>
         </div>
       </div>
       <ol class="drivers">
@@ -106,10 +106,10 @@ const people = [
           </li>
           <li>
             <span class="n">03</span>
-            <div><h3>Start with the work people already do.</h3><p>For a business that runs on phone calls and spreadsheets, a useful AI tool has to fit how the team takes calls, keeps records and follows up.</p></div>
+            <div><h3>Start with the work people already do.</h3><p>For a business that runs on inbound calls, texts, schedules, and job records, useful AI has to answer fast, qualify the work, keep records clean, and hand off to the team with full context.</p></div>
           </li>
         </ol>
-        <p class="close">That’s the opportunity: take what already works at the top and build it into the way everyday businesses operate.</p>
+        <p class="close">That’s the opportunity: take the checks that make AI reliable at the frontier and build them directly into the software everyday businesses run on.</p>
         <p class="src" id="src-sba">1. U.S. Small Business Administration, Office of Advocacy, <a href="https://advocacy.sba.gov/wp-content/uploads/2026/02/FINAL_FAQsAboutSmallBusiness_2026_012826.pdf">Frequently Asked Questions About Small Business</a>, February 2026.</p>
       </div>
     </div>
@@ -144,7 +144,7 @@ const people = [
           <h2>Where the ideas get&nbsp;tested.</h2>
         </div>
         <div class="split-body">
-          <p>I split my time between work close to the frontier and work far from it. The frontier shows me what AI can do. The field shows me what gets in the way.</p>
+          <p>I split my time between frontier evaluation and software for operating businesses. Frontier benchmarks show me where models and agents hold up and where they fail silently. Operating businesses show me what software needs to survive real customers, phone lines, and schedules.</p>
         </div>
       </div>
       <dl class="angles">

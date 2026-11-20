@@ -5,11 +5,11 @@ import { getPosts } from '../../lib/posts';
 import { SERIES } from '../../site';
 const posts = await getPosts();
 ---
-<Base title="Blog" description="Rakeem Chapman's blog on diffusing the benefits of AI to everyday businesses, finding root causes, and what the frontier is learning.">
+<Base title="Blog" description="Essays by Rakeem Chapman on bending the median of AI, frontier model evaluation, root-cause analysis and deploying AI inside operating businesses.">
   <section class="wrap head">
     <p class="label"><span class="accent">●</span> Blog · {posts.length} {posts.length === 1 ? 'post' : 'posts'}</p>
     <h1>Thinking out loud.</h1>
-    <p class="lede">Essays on how more people can benefit from AI and how I work through hard problems.</p>
+    <p class="lede">Field notes and essays on bending the median of AI — what frontier evaluations reveal, what breaks inside real operating businesses and how to find root causes before building a fix.</p>
   </section>
   <section class="wrap series">
     {Object.values(SERIES).map((s) => (<div><p class="label">{s.label}</p><p>{s.blurb}</p></div>))}

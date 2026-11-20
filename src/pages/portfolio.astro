@@ -6,11 +6,11 @@ const projects = [
     type: 'Platform · Evaluation',
     title: 'Open World Bench',
     period: '2026',
-    desc: 'An engineering evaluation platform I built to measure how AI agents perform on real engineering work: tasks replayed from actual production problems, deterministic scoring, and an isolated-runner design that fails closed until isolation is proven.',
+    desc: 'A benchmark platform I built to test coding agents on bugs and changes pulled from production software, using deterministic grading checks inside isolated runners that fail closed until isolation is verified.',
     points: [
-      'Ten-task calibration suite derived from real engineering incidents, with versioned task and environment manifests.',
-      'Deterministic scoring with seeded bootstrap confidence intervals and mergeability gates — no vibes-based leaderboards.',
-      'Held-out grading material stays unpublished by design; every score on the dashboard is labeled demo data.',
+      'Ten-task calibration suite drawn from real software incidents, with versioned task definitions and environment manifests.',
+      'Fixed objective and guardrail checks with seeded bootstrap confidence intervals and mergeability gates.',
+      'Held-out grading checks stay unpublished to prevent contamination; dashboard scores are labeled synthetic demo data.',
     ],
     stack: 'Next.js · TypeScript · zod · bootstrap statistics · isolated-runner contract',
     img: '/images/owb.webp',
@@ -22,11 +22,11 @@ const projects = [
     type: 'Game · Strategy',
     title: 'Aurelia: Empires of the Sun',
     period: '2026',
-    desc: 'A Roman real-time strategy game that runs in the browser. AI opponents, resource economy, construction and tech progression across four ages, with save and load.',
+    desc: 'A Roman real-time strategy game that runs in the browser, with AI opponents, resource gathering, construction, save/load, and tech progression across four ages.',
     points: [
-      'Built by directing AI coding agents with a strict verification loop: nothing counted as done until screenshots and tests proved it.',
-      'I used browser tests to check gameplay across Chromium, Firefox and WebKit.',
-      'Pixel-level tests verify that units are actually visible, upright and animating.',
+      'Built by directing AI coding agents through a strict verification loop where changes required passing tests and screenshots.',
+      'Automated browser tests check game loops across Chromium, Firefox, and WebKit.',
+      'Pixel-level checks verify that 3D units render visibly, stand upright on terrain, and animate.',
     ],
     stack: 'Unity · WebGL · C# · AI agents · browser test harness',
     img: '/images/aurelia.webp',
@@ -38,12 +38,13 @@ const projects = [
     type: 'App · Meetings',
     title: 'Open Meet',
     period: '2026',
-    desc: 'A self-hosted meeting application built around Jitsi, with invitation links, optional passcodes, and host-private notes.',
+    desc: 'A self-hosted video meeting application built around Jitsi, with shareable invitation links, optional passcodes, waiting-room controls, and host-private notes.',
     points: [
-      'Rooms, invitations and scheduling for teams and clients.',
-      'Meeting privacy depends on the configured hosting and media services.',
-    ],
-    stack: 'Jitsi · Node.js · self-hosted infrastructure',
+      'Separate participant and private host links with room access gated by signed tokens.',
+      'Host workspace for private notes alongside optional call transcription, summaries, and follow-up action items.',
+      'Meeting privacy, media, and optional summary features depend on the configured self-hosted services.',
+],
+    stack: 'Jitsi · Node.js · JWT room auth · self-hosted infrastructure',
     img: '/images/open-meet.jpg',
     alt: 'Open Meet home page with meeting controls and deployment information',
     link: { href: 'https://open-meet-rakeem.vercel.app/', label: 'Use →' },
@@ -53,11 +54,11 @@ const projects = [
     type: 'App · Learning',
     title: 'Python Play',
     period: '2026',
-    desc: 'A course I built to teach Python, pandas, SQL and data engineering through exercises that run in the browser.',
+    desc: 'A browser-based course I built to teach Python, pandas, SQL, and introductory data engineering through 46 interactive missions.',
     points: [
-      'Exercises run and are graded in the browser using Pyodide for Python and SQLite for SQL.',
-      'Progression from the first print() to joins, window functions, warehouse grain and idempotent backfills.',
-      'The browser stores streaks, drafts and notes locally.',
+      '138 graded problems across 13 chapters and four capstones, running locally in Web Workers via Pyodide and SQLite WASM without a server or login.',
+      'Covers syntax, files, joins, window functions, warehouse grain, date-stamped snapshots, idempotent backfills, and metric QA.',
+      'Includes Guided, Stretch, and Independent modes, with streaks, drafts, and notes saved in local browser storage.',
     ],
     stack: 'Pyodide · SQLite WASM · Web Workers · vanilla JS · local-first',
     img: '/images/python-play.webp',
@@ -67,11 +68,11 @@ const projects = [
   },
 ];
 ---
-<Base title="Portfolio" description="Hobby projects Rakeem Chapman has built in his spare time: games, apps and systems that test the ideas he works on.">
+<Base title="Portfolio" description="Benchmarks, applications, and browser projects built by Rakeem Chapman to test agent evaluation, verification loops, and local-first software.">
   <section class="wrap head">
     <p class="label kicker">Portfolio</p>
-    <h1>Things I’ve built for fun.</h1>
-    <p class="lede">Hobby projects from my spare time: games, applications and systems that let me test the ideas I work on.</p>
+    <h1>Projects and testbeds.</h1>
+    <p class="lede">Benchmarks, applications, and browser builds I’ve put together to test coding-agent evaluation, automated verification loops, and local-first software.</p>
   </section>
   <section class="wrap list">
     {projects.map((p) => (
